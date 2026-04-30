@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plain Vanilla — La Noche de Barranco · 19 Mayo 2026</title>
+  <meta name="description" content="Plain Vanilla en vivo. La Noche de Barranco, Lima. Martes 19 de Mayo 2026 · 10:00 PM. Consigue tus entradas ahora.">
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Plain Vanilla en vivo — La Noche de Barranco">
+  <meta property="og:description" content="Martes 19 de Mayo · 10:00 PM · La Noche de Barranco, Lima. Consigue tus entradas.">
+  <meta property="og:image"       content="assets/proximo-show/1.webp">
+  <meta property="og:type"        content="event">
+  <meta property="og:locale"      content="es_PE">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Plain Vanilla en vivo — La Noche de Barranco">
+  <meta name="twitter:description" content="Martes 19 de Mayo · 10:00 PM · Lima. Consigue tus entradas.">
+  <meta name="twitter:image"       content="assets/proximo-show/1.webp">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Navegación">
+    <a href="index.html" class="nav-logo" aria-label="Plain Vanilla — volver al sitio">
+      <img src="assets/Marca/logo.png" alt="Logo Plain Vanilla">
+    </a>
+
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="index.html#musica">Música</a></li>
+      <li><a href="index.html#live">Live</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+      <li><a href="index.html" class="nav-show-btn">← Volver al sitio</a></li>
+    </ul>
+
+    <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════
+       HERO DEL SHOW
+  ══════════════════════════════════════════ -->
+  <section class="show-hero" aria-label="Plain Vanilla en La Noche de Barranco">
+    <div class="show-hero-bg"
+         style="background-image: url('assets/proximo-show/1.webp');"
+         aria-hidden="true">
+    </div>
+    <div class="show-hero-content">
+      <p class="eyebrow">Plain Vanilla en vivo</p>
+      <h1 class="show-title">La Noche<br>de Barranco</h1>
+      <p class="show-venue-line">
+        Barranco, Lima &nbsp;&middot;&nbsp; Martes 19 de Mayo &nbsp;&middot;&nbsp; 10:00 PM
+      </p>
+      <a href="https://api.whatsapp.com/send/?phone=51978491169&text=Hola%21%20Quiero%2010%20entradas%20para%20el%20concierto%20en%20la%20Noche%20de%20Barranco%20%F0%9F%91%80&type=phone_number&app_absent=0"
+         class="btn btn-primary" target="_blank" rel="noopener">
+        COMPRAR ENTRADAS
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       ARTE DEL EVENTO
+  ══════════════════════════════════════════ -->
+  <section class="show-art-section" aria-label="Arte del evento">
+    <div class="show-art-grid">
+      <div class="show-art-item fade-in">
+        <img src="assets/proximo-show/2.webp" alt="Plain Vanilla — La Noche de Barranco" loading="lazy" decoding="async">
+      </div>
+      <div class="show-art-item fade-in">
+        <img src="assets/proximo-show/3.webp" alt="Plain Vanilla — La Noche de Barranco" loading="lazy" decoding="async">
+      </div>
+      <div class="show-art-item fade-in">
+        <img src="assets/proximo-show/4.webp" alt="Plain Vanilla — La Noche de Barranco" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       COUNTDOWN
+  ══════════════════════════════════════════ -->
+  <div class="show-countdown-section" aria-label="Cuenta regresiva al show">
+    <p class="eyebrow" style="margin-bottom:1.75rem">Faltan</p>
+
+    <div class="countdown" id="countdown-show" aria-live="polite">
+      <div class="countdown-unit">
+        <span class="countdown-num" id="s-days">--</span>
+        <span class="countdown-label">días</span>
+      </div>
+      <span class="countdown-sep" aria-hidden="true">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="s-hours">--</span>
+        <span class="countdown-label">horas</span>
+      </div>
+      <span class="countdown-sep" aria-hidden="true">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="s-minutes">--</span>
+        <span class="countdown-label">min</span>
+      </div>
+      <span class="countdown-sep" aria-hidden="true">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="s-seconds">--</span>
+        <span class="countdown-label">seg</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       CTA PRINCIPAL — ENTRADAS
+  ══════════════════════════════════════════ -->
+  <section class="show-cta-section" id="entradas" aria-label="Compra de entradas">
+    <p class="eyebrow" style="margin-bottom:.75rem">Entradas disponibles</p>
+    <h2 class="section-title fade-in" style="margin-bottom:1.5rem">
+      Consigue la tuya<br>antes de que se agoten
+    </h2>
+    <p class="ticket-price fade-in">Cupos limitados &nbsp;&middot;&nbsp; La Noche de Barranco</p>
+
+    <a href="https://api.whatsapp.com/send/?phone=51978491169&text=Hola%21%20Quiero%2010%20entradas%20para%20el%20concierto%20en%20la%20Noche%20de%20Barranco%20%F0%9F%91%80&type=phone_number&app_absent=0"
+       class="btn btn-primary fade-in" style="font-size:.9rem;padding:1rem 3rem"
+       target="_blank" rel="noopener">
+      COMPRAR ENTRADAS →
+    </a>
+
+    <p style="margin-top:1.5rem;color:var(--muted);font-size:.8rem;letter-spacing:.05em">
+      Entradas también disponibles en puerta el día del evento (sujeto a disponibilidad)
+    </p>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       SOBRE EL SHOW
+  ══════════════════════════════════════════ -->
+  <section class="show-about" aria-label="Sobre el show">
+    <div class="container">
+      <h2 class="fade-in">Sobre el show</h2>
+      <p class="fade-in">
+        Plain Vanilla llega a La Noche de Barranco con una noche hecha para hacer vibrar.
+        Funk, soul, bossa nova, reggae y mucho más — en vivo, sin fórmulas, sin filtros.
+      </p>
+      <p class="fade-in">
+        Luego de su debut abriendo para Laguna Pai en Arequipa, la banda trae toda esa
+        energía a uno de los venues más icónicos de Lima. Una noche que no querrás perderte.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       GALERÍA FOMO
+  ══════════════════════════════════════════ -->
+  <section class="show-gallery" aria-label="Fotos del show anterior">
+    <div class="container" style="margin-bottom:2rem">
+      <p class="eyebrow fade-in" style="text-align:center">Así fue el debut</p>
+      <h2 class="section-title fade-in" style="margin-bottom:0">Mejía, Arequipa — 2026</h2>
+    </div>
+
+    <div class="gallery-grid" id="fomo-gallery" style="padding:0 2rem"
+         aria-label="Fotos del concierto de apertura">
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       FAQ
+  ══════════════════════════════════════════ -->
+  <section class="show-faq" aria-label="Preguntas frecuentes">
+    <h2 class="fade-in">Preguntas frecuentes</h2>
+
+    <ul class="faq-list">
+      <li class="faq-item fade-in">
+        <p class="faq-q">¿Dónde es el show?</p>
+        <p class="faq-a">La Noche de Barranco, Barranco, Lima. Uno de los venues más emblemáticos de la escena musical limeña.</p>
+      </li>
+      <li class="faq-item fade-in">
+        <p class="faq-q">¿Cuándo es y a qué hora?</p>
+        <p class="faq-a">Martes 19 de Mayo del 2026. Las puertas abren con anticipación y el show comienza a las 10:00 PM.</p>
+      </li>
+      <li class="faq-item fade-in">
+        <p class="faq-q">¿Cómo compro mis entradas?</p>
+        <p class="faq-a">Escríbenos directamente por WhatsApp usando el botón de esta página. Te confirmamos la disponibilidad al instante.</p>
+      </li>
+      <li class="faq-item fade-in">
+        <p class="faq-q">¿Hay restricción de edad?</p>
+        <p class="faq-a">Para consumo de bebidas alcohólicas se requiere ser mayor de 18 años con DNI vigente.</p>
+      </li>
+      <li class="faq-item fade-in">
+        <p class="faq-q">¿Puedo comprar entradas en la puerta?</p>
+        <p class="faq-a">Sí, sujeto a disponibilidad. Recomendamos reservar anticipado — el aforo es limitado.</p>
+      </li>
+    </ul>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       FOOTER CTA
+  ══════════════════════════════════════════ -->
+  <section class="show-footer-cta">
+    <p class="eyebrow" style="margin-bottom:1.25rem">¿Listo?</p>
+    <h2 class="section-title fade-in" style="margin-bottom:2rem">No te lo pierdas</h2>
+
+    <a href="https://api.whatsapp.com/send/?phone=51978491169&text=Hola%21%20Quiero%2010%20entradas%20para%20el%20concierto%20en%20la%20Noche%20de%20Barranco%20%F0%9F%91%80&type=phone_number&app_absent=0"
+       class="btn btn-primary fade-in" style="font-size:.9rem;padding:1rem 3rem"
+       target="_blank" rel="noopener">
+      COMPRAR ENTRADAS →
+    </a>
+
+    <p class="fade-in">
+      Comparte con quien no puede faltar &mdash;
+      <a href="https://www.instagram.com/plainvanilla.pe" target="_blank" rel="noopener"
+         style="color:var(--accent)">@plainvanilla.pe</a>
+    </p>
+
+    <div style="margin-top:3rem">
+      <a href="index.html" class="back-link">← Volver al sitio de Plain Vanilla</a>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Plain Vanilla. Lima, Perú.</p>
+  </footer>
+
+  <script src="show.js"></script>
+</body>
+</html>
