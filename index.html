@@ -26,19 +26,20 @@
 
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="page-home">
 
   <!-- ══════════════════════════════════════════
        NAVBAR
   ══════════════════════════════════════════ -->
   <nav id="navbar" role="navigation" aria-label="Navegación principal">
     <a href="#" class="nav-logo" aria-label="Plain Vanilla — inicio">
-      <img src="assets/Marca/logo.png" alt="Logo Plain Vanilla">
+      <img src="assets/Marca/logo_y_typo.png" alt="Logo Plain Vanilla">
     </a>
 
     <ul class="nav-links" id="nav-menu">
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#live">Live</a></li>
+      <li><a href="galeria.html">Galería</a></li>
       <li><a href="#musica">Música</a></li>
       <li><a href="#videoclips">Videoclips</a></li>
       <li><a href="#contacto">Contacto</a></li>
@@ -54,15 +55,74 @@
 
 
   <!-- ══════════════════════════════════════════
-       HERO
+       HERO — CARRUSEL
   ══════════════════════════════════════════ -->
-  <section id="hero" aria-label="Plain Vanilla">
-    <div class="hero-bg" style="background-image: url('assets/Live/live-aperol-03.webp');" aria-hidden="true"></div>
-    <div class="hero-content">
-      <img src="assets/Marca/logo.png" alt="" class="hero-logo" aria-hidden="true">
-      <h1>PLAIN<br>VANILLA</h1>
-      <a href="#musica" class="btn btn-outline">ESCÚCHANOS</a>
+  <section id="hero" class="hero-carousel" aria-label="Plain Vanilla">
+
+    <!-- Slide 1: Landing -->
+    <div class="carousel-slide is-active">
+      <div class="hero-bg" style="background-image: url('assets/Live/live-aperol-03.webp');" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1>PLAIN<br>VANILLA</h1>
+        <a href="#musica" class="btn btn-outline">ESCÚCHANOS</a>
+      </div>
     </div>
+
+    <!-- Slide 2: Show hero -->
+    <div class="carousel-slide carousel-slide--show">
+      <div class="show-hero-split">
+
+        <div class="show-hero-left">
+          <img src="assets/proximo-show/1.webp"
+               alt="La Noche de Barranco — Plain Vanilla en vivo"
+               class="show-hero-img">
+        </div>
+
+        <div class="show-hero-right">
+          <p class="eyebrow">Plain Vanilla <span class="accent-orange">EN VIVO</span> EN</p>
+          <h2 class="show-title">La Noche<br>de Barranco</h2>
+          <p class="show-venue-line">
+            <span class="accent-cream">19 Mayo</span> &nbsp;&middot;&nbsp; 10 PM &nbsp;&middot;&nbsp; Barranco, Lima
+          </p>
+
+          <div class="show-hero-countdown" id="countdown-show" aria-live="polite">
+            <div class="countdown-unit">
+              <span class="countdown-num" id="s-days">--</span>
+              <span class="countdown-label">días</span>
+            </div>
+            <span class="countdown-sep" aria-hidden="true">:</span>
+            <div class="countdown-unit">
+              <span class="countdown-num" id="s-hours">--</span>
+              <span class="countdown-label">horas</span>
+            </div>
+            <span class="countdown-sep" aria-hidden="true">:</span>
+            <div class="countdown-unit">
+              <span class="countdown-num" id="s-minutes">--</span>
+              <span class="countdown-label">min</span>
+            </div>
+            <span class="countdown-sep" aria-hidden="true">:</span>
+            <div class="countdown-unit">
+              <span class="countdown-num" id="s-seconds">--</span>
+              <span class="countdown-label">seg</span>
+            </div>
+          </div>
+
+          <a href="show.html" class="show-ticket-link">
+            MÁS INFO / ENTRADAS →
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Navegación -->
+    <button class="carousel-arrow carousel-arrow--prev" aria-label="Slide anterior">&#8592;</button>
+    <button class="carousel-arrow carousel-arrow--next" aria-label="Slide siguiente">&#8594;</button>
+    <div class="carousel-dots" role="tablist" aria-label="Slides">
+      <button class="carousel-dot is-active" role="tab" aria-selected="true"  aria-label="Slide 1"></button>
+      <button class="carousel-dot"           role="tab" aria-selected="false" aria-label="Slide 2"></button>
+    </div>
+
   </section>
 
 
@@ -150,7 +210,7 @@
                  loading="lazy" decoding="async">
           </div>
           <h3>Gustavo Ruiz de Somourcio</h3>
-          <p class="member-role">Voz y Guitarra rítmica</p>
+          <p class="member-role">Vocalista y Compositor</p>
         </div>
 
         <div class="member-card fade-in">
@@ -196,20 +256,51 @@
       <h2 class="section-title fade-in">LIVE</h2>
       <p class="section-subtitle fade-in">Un poco del concierto de apertura a Laguna Pai.</p>
 
-      <div class="youtube-wrap fade-in">
-        <iframe
-          src="https://www.youtube.com/embed/Dt7FpINKjpA?si=maTRtbJu434QSG7G"
-          title="Plain Vanilla — Verde y Azul - En Vivo - Mejía, Arequipa (Apertura a Laguna Pai)"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
+      <div class="fomo-video-col fade-in" style="max-width:860px;margin:0 auto 2rem">
+        <div class="fomo-video-main">
+          <iframe
+            src="https://www.youtube.com/embed/Dt7FpINKjpA?si=maTRtbJu434QSG7G"
+            title="Plain Vanilla — Verde y Azul - En Vivo - Mejía, Arequipa (Apertura a Laguna Pai)"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen loading="lazy">
+          </iframe>
+        </div>
+        <div class="fomo-video-row">
+          <div class="fomo-video-small">
+            <iframe
+              src="https://www.youtube.com/embed/wMpTbeu92oo?si=hFTrx7WLnqI_RAJC"
+              title="Plain Vanilla en vivo — Mejía, Arequipa"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+          <div class="fomo-video-small">
+            <iframe
+              src="https://www.youtube.com/embed/gZ8BKcrG7ZQ?si=ktiTsYiLLAmGVEdS"
+              title="Plain Vanilla en vivo — Mejía, Arequipa"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen loading="lazy">
+            </iframe>
+          </div>
+        </div>
       </div>
 
-      <!-- Galería — se puebla con main.js -->
-      <div class="gallery-grid" id="gallery" aria-label="Galería de fotos en vivo"></div>
+      <!-- Galerías por sección — se pueblan con main.js -->
+      <div class="gallery-section fade-in">
+        <div class="gallery-section-header">
+          <h3 class="gallery-section-title">Aperol O'clock |  &nbsp;<span class="gallery-section-meta">Mejía, Arequipa · 2026</span></h3>
+        </div>
+        <div class="gallery-grid" id="gallery-aperol" aria-label="Fotos Aperol O'clock"></div>
+        <a href="galeria.html" class="btn btn-primary" style="margin-top:1.5rem">
+          Galería →
+        </a>
+      </div>
     </div>
   </section>
 
@@ -362,19 +453,48 @@
   <section id="contacto">
     <div class="container">
       <h2 class="section-title fade-in">CONTACTO</h2>
-
       <div class="contacto-inner">
         <div>
-          <a href="mailto:plainvanilla.contacto@gmail.com" class="contacto-email fade-in">
-            <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-            </svg>
-            plainvanilla.contacto@gmail.com
-          </a>
-
           <ul class="social-list">
+            <!-- Columna 1: Música -->
             <li>
-              <a href="https://www.instagram.com/plainvanilla.pe" class="social-link fade-in"
+              <a href="https://open.spotify.com/intl-es/artist/2JTvs9rYsl6DrYLX1KTclC?si=2txjzWL5RnC5Kjn4PdqlIQ" class="social-link fade-in"
+                 target="_blank" rel="noopener" aria-label="Spotify de Plain Vanilla">
+                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                </svg>
+                plain vanilla
+              </a>
+            </li>
+            <li>
+              <a href="https://youtube.com/@plainvanilla_pe?si=2OWf7o_E9nl4OWSz" class="social-link fade-in"
+                 target="_blank" rel="noopener" aria-label="YouTube de Plain Vanilla">
+                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.4 5 12 5 12 5s-4.4 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.2.8C6.6 19 12 19 12 19s4.4 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM9.7 14.5V9.5l5.4 2.5-5.4 2.5z"/>
+                </svg>
+                plain vanilla
+              </a>
+            </li>
+            <li>
+              <a href="https://on.soundcloud.com/FM1fztX7rX0Sr1G1qx" class="social-link fade-in"
+                 target="_blank" rel="noopener" aria-label="SoundCloud de Plain Vanilla">
+                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1.175 12.225c-.017 0-.034.007-.05.01A.632.632 0 001 12.6v3.525c0 .235.19.425.425.425H1.7a.425.425 0 00.425-.425V12.6a.632.632 0 00-.125-.365.454.454 0 00-.35-.16.454.454 0 00-.475.15zM3.5 10.8a.55.55 0 00-.55.55v4.775a.55.55 0 001.1 0V11.35a.55.55 0 00-.55-.55zm2.175-.7a.625.625 0 00-.625.625v5.45a.625.625 0 001.25 0V10.725a.625.625 0 00-.625-.625zm2.175.325a.7.7 0 00-.7.7v4.8a.7.7 0 001.4 0v-4.8a.7.7 0 00-.7-.7zm8.9-3.875C16.05 4.075 14.1 2.5 11.8 2.5A6.95 6.95 0 005.5 7.325a2.725 2.725 0 00-.65-.075 2.75 2.75 0 000 5.5h11.375A3.275 3.275 0 0019.5 9.5a3.275 3.275 0 00-2.75-2.95z"/>
+                </svg>
+                plain vanilla
+              </a>
+            </li>
+            <!-- Columna 2: Redes sociales -->
+            <li>
+              <a href="mailto:plainvanilla.contacto@gmail.com" class="social-link fade-in">
+                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                plainvanilla.contacto@gmail.com
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/plainvanilla.pe?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-link fade-in"
                  target="_blank" rel="noopener" aria-label="Instagram de Plain Vanilla">
                 <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -389,33 +509,6 @@
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/>
                 </svg>
                 @plainvanilla_pe
-              </a>
-            </li>
-            <li>
-              <a href="https://www.youtube.com/@plainvanilla" class="social-link fade-in"
-                 target="_blank" rel="noopener" aria-label="YouTube de Plain Vanilla">
-                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.4 5 12 5 12 5s-4.4 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.2.8C6.6 19 12 19 12 19s4.4 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM9.7 14.5V9.5l5.4 2.5-5.4 2.5z"/>
-                </svg>
-                plain vanilla
-              </a>
-            </li>
-            <li>
-              <a href="https://open.spotify.com/artist/plainvanilla" class="social-link fade-in"
-                 target="_blank" rel="noopener" aria-label="Spotify de Plain Vanilla">
-                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-                </svg>
-                plain vanilla
-              </a>
-            </li>
-            <li>
-              <a href="https://soundcloud.com/plainvanilla" class="social-link fade-in"
-                 target="_blank" rel="noopener" aria-label="SoundCloud de Plain Vanilla">
-                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.175 12.225c-.017 0-.034.007-.05.01A.632.632 0 001 12.6v3.525c0 .235.19.425.425.425H1.7a.425.425 0 00.425-.425V12.6a.632.632 0 00-.125-.365.454.454 0 00-.35-.16.454.454 0 00-.475.15zM3.5 10.8a.55.55 0 00-.55.55v4.775a.55.55 0 001.1 0V11.35a.55.55 0 00-.55-.55zm2.175-.7a.625.625 0 00-.625.625v5.45a.625.625 0 001.25 0V10.725a.625.625 0 00-.625-.625zm2.175.325a.7.7 0 00-.7.7v4.8a.7.7 0 001.4 0v-4.8a.7.7 0 00-.7-.7zm8.9-3.875C16.05 4.075 14.1 2.5 11.8 2.5A6.95 6.95 0 005.5 7.325a2.725 2.725 0 00-.65-.075 2.75 2.75 0 000 5.5h11.375A3.275 3.275 0 0019.5 9.5a3.275 3.275 0 00-2.75-2.95z"/>
-                </svg>
-                plain vanilla
               </a>
             </li>
           </ul>

@@ -6,6 +6,26 @@
 // ── NAVBAR SCROLL ─────────────────────────────────────────────
 const navbar = document.getElementById('navbar');
 
+// ── HAMBURGER MENU ────────────────────────────────────────────
+const hamburger = document.querySelector('.hamburger');
+const navLinks  = document.querySelector('.nav-links');
+
+function closeMenu() {
+  hamburger.classList.remove('open');
+  navLinks.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+}
+
+hamburger.addEventListener('click', () => {
+  const isOpen = hamburger.classList.toggle('open');
+  navLinks.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+});
+
+navLinks.querySelectorAll('a').forEach(link =>
+  link.addEventListener('click', closeMenu)
+);
+
 window.addEventListener('scroll', () => {
   navbar?.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
@@ -23,17 +43,7 @@ const fadeObserver = new IntersectionObserver(entries => {
 document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
 // ── PARALLAX HERO ─────────────────────────────────────────────
-const heroBg = document.querySelector('.show-hero-bg');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-if (heroBg && !reduceMotion) {
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (y < window.innerHeight * 1.1) {
-      heroBg.style.transform = `translateY(${y * 0.3}px)`;
-    }
-  }, { passive: true });
-}
+// Parallax desactivado: hero usa background-size: contain, el transform lo recortaría
 
 // ── COUNTDOWN — SHOW DATE ────────────────────────────────────
 const SHOW_DATE = new Date('2026-05-19T22:00:00-05:00'); // La Noche de Barranco — 19 mayo 2026, 10PM Lima
@@ -71,31 +81,3 @@ const SHOW_DATE = new Date('2026-05-19T22:00:00-05:00'); // La Noche de Barranco
   tick();
 })();
 
-// ── MINI GALLERY (FOMO) ───────────────────────────────────────
-const FOMO_PHOTOS = [
-  'assets/Live/live-mejia-05.webp',
-  'assets/Live/live-aperol-03.webp',
-  'assets/Live/live-mejia-03.webp',
-  'assets/Live/live-aperol-06.webp',
-  'assets/Live/live-mejia-06.webp',
-  'assets/Live/live-aperol-07.webp',
-];
-
-const fomoGrid = document.getElementById('fomo-gallery');
-
-if (fomoGrid) {
-  FOMO_PHOTOS.forEach((src, i) => {
-    const item    = document.createElement('div');
-    item.className = 'gallery-item fade-in';
-
-    const img    = document.createElement('img');
-    img.src      = src;
-    img.alt      = `Plain Vanilla en vivo — ${i + 1}`;
-    img.loading  = 'lazy';
-    img.decoding = 'async';
-
-    item.appendChild(img);
-    fomoGrid.appendChild(item);
-    fadeObserver.observe(item);
-  });
-}

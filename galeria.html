@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plain Vanilla — Galería</title>
+  <meta name="description" content="Fotos de los shows en vivo de Plain Vanilla. Aperol O'Clock y Apertura a Laguna Pai — Mejía, Arequipa 2026.">
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Plain Vanilla — Galería">
+  <meta property="og:description" content="Fotos de los shows en vivo de Plain Vanilla. Mejía, Arequipa 2026.">
+  <meta property="og:image"       content="assets/Live/live-aperol-01.webp">
+  <meta property="og:type"        content="website">
+  <meta property="og:locale"      content="es_PE">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Navegación principal">
+    <a href="index.html" class="nav-logo" aria-label="Plain Vanilla — inicio">
+      <img src="assets/Marca/logo_y_typo.png" alt="Logo Plain Vanilla">
+    </a>
+
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="index.html#nosotros">Nosotros</a></li>
+      <li><a href="index.html#live">Live</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="index.html#musica">Música</a></li>
+      <li><a href="index.html#videoclips">Videoclips</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+      <li><a href="show.html" class="nav-show-btn">Show →</a></li>
+    </ul>
+
+    <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════
+       INTRO
+  ══════════════════════════════════════════ -->
+  <section class="galeria-intro">
+    <div class="container">
+      <p class="eyebrow fade-in">Plain Vanilla en vivo</p>
+      <h1 class="section-title fade-in">GALERÍA</h1>
+      <p class="section-subtitle fade-in">Mejía, Arequipa · 2026</p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       GALERÍA
+  ══════════════════════════════════════════ -->
+  <section id="galeria">
+    <div class="container">
+
+      <div class="gallery-section fade-in">
+        <div class="gallery-section-header">
+          <h2 class="gallery-section-title">Aperol O'clock | &nbsp;<span class="gallery-section-meta">Mejía, Arequipa · 2026</span></h2>
+        </div>
+        <div class="gallery-grid" id="gallery-aperol" aria-label="Fotos Aperol O'clock"></div>
+        <button class="gallery-expand-btn" data-target="gallery-aperol" data-total="8">
+          Ver las 8 fotos <span aria-hidden="true">↓</span>
+        </button>
+        <button class="gallery-collapse-btn" data-target="gallery-aperol" hidden>
+          Ver menos <span aria-hidden="true">↑</span>
+        </button>
+      </div>
+
+      <div class="gallery-section fade-in">
+        <div class="gallery-section-header">
+          <h2 class="gallery-section-title">Apertura a Laguna Pai | &nbsp;<span class="gallery-section-meta">Mejía, Arequipa · 2026</span></h2>
+        </div>
+        <div class="gallery-grid" id="gallery-mejia" aria-label="Fotos Apertura a Laguna Pai"></div>
+        <button class="gallery-expand-btn" data-target="gallery-mejia" data-total="9">
+          Ver las 9 fotos <span aria-hidden="true">↓</span>
+        </button>
+        <button class="gallery-collapse-btn" data-target="gallery-mejia" hidden>
+          Ver menos <span aria-hidden="true">↑</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Plain Vanilla. Lima, Perú.</p>
+  </footer>
+
+
+  <!-- ══════════════════════════════════════════
+       LIGHTBOX
+  ══════════════════════════════════════════ -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true"
+       aria-label="Galería de fotos" aria-hidden="true" tabindex="-1">
+    <button class="lightbox-close" aria-label="Cerrar galería">&times;</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Foto anterior">&#8592;</button>
+    <img class="lightbox-img" src="" alt="" loading="eager">
+    <button class="lightbox-nav lightbox-next" aria-label="Foto siguiente">&#8594;</button>
+    <span class="lightbox-counter" aria-live="polite"></span>
+  </div>
+
+
+  <script src="main.js"></script>
+</body>
+</html>
