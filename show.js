@@ -28,6 +28,7 @@ navLinks.querySelectorAll('a').forEach(link =>
 
 window.addEventListener('scroll', () => {
   navbar?.classList.toggle('scrolled', window.scrollY > 60);
+  if (hamburger.classList.contains('open')) closeMenu();
 }, { passive: true });
 
 // ── FADE-IN ON SCROLL ─────────────────────────────────────────

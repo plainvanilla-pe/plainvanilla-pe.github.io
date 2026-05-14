@@ -24,7 +24,7 @@
     dots[current].setAttribute('aria-selected', 'true');
   }
 
-  function startAuto() { timer = setInterval(() => goTo(current + 1), 6000); }
+  function startAuto() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 6000); }
   function stopAuto()  { clearInterval(timer); }
 
   hero.querySelector('.carousel-arrow--next')?.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
@@ -44,6 +44,55 @@
 
   hero.addEventListener('mouseenter', stopAuto);
   hero.addEventListener('mouseleave', startAuto);
+
+  // Scroll rueda (vertical) y trackpad horizontal en desktop
+  let wheelLocked = false;
+  hero.addEventListener('wheel', e => {
+    if (wheelLocked) return;
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(delta) < 10) return;
+    e.preventDefault();
+    wheelLocked = true;
+    stopAuto();
+    goTo(current + (delta > 0 ? 1 : -1));
+    startAuto();
+    setTimeout(() => { wheelLocked = false; }, 800);
+  }, { passive: false });
+
+  // Drag con mouse en desktop
+  let dragStartX = null;
+  let wasDragged = false;
+
+  hero.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    dragStartX = e.clientX;
+    wasDragged = false;
+    hero.style.cursor = 'grabbing';
+    hero.style.userSelect = 'none';
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (dragStartX === null) return;
+    if (Math.abs(e.clientX - dragStartX) > 8) wasDragged = true;
+  });
+
+  window.addEventListener('mouseup', e => {
+    if (dragStartX === null) return;
+    const diff = e.clientX - dragStartX;
+    if (wasDragged && Math.abs(diff) > 40) {
+      stopAuto();
+      goTo(current + (diff < 0 ? 1 : -1));
+      startAuto();
+    }
+    dragStartX = null;
+    hero.style.cursor = '';
+    hero.style.userSelect = '';
+  });
+
+  // Evitar que un drag dispare links internos del hero
+  hero.addEventListener('click', e => {
+    if (wasDragged) { e.preventDefault(); wasDragged = false; }
+  }, true);
 
   startAuto();
 })();
@@ -76,6 +125,7 @@ const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
+  if (hamburger.classList.contains('open')) closeMenu();
 }, { passive: true });
 
 // ── HAMBURGER MENU ────────────────────────────────────────────
