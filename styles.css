@@ -673,8 +673,10 @@ section { padding: var(--section-v) 0; }
 /* Galería page intro */
 .galeria-intro {
   padding-top: 4rem;
-  padding-bottom: 3rem;
+  padding-bottom: 1rem;
 }
+
+#galeria { padding-top: 2rem; }
 
 /* Gallery sections */
 .gallery-section {
@@ -1093,10 +1095,21 @@ section { padding: var(--section-v) 0; }
 
 @media (max-width: 640px) {
   .contacto-inner {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
   }
-  .contacto-logo { display: none; }
+  .contacto-logo { display: block; }
+  .contacto-logo img { width: 177px; }
+  .social-list {
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    gap: 1rem;
+  }
+  #contacto .section-title {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ============================================================
