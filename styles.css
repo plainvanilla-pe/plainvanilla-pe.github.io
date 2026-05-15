@@ -1434,6 +1434,11 @@ section { padding: var(--section-v) 0; }
   .fomo-video-col { flex: 0 0 100%; width: 100%; }
 }
 
+@media (max-width: 768px) {
+  .fomo-video-row { flex-direction: column; gap: 11px; }
+  .fomo-video-small { aspect-ratio: 685 / 356; }
+}
+
 /* Color utilities */
 .accent-orange,
 .eyebrow--orange { color: #e27743; }
