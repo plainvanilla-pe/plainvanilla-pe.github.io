@@ -239,26 +239,39 @@ document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
 // ── GALLERY BUILD & LIGHTBOX ──────────────────────────────────
 const GALLERY_APEROL = [
-  'assets/Live/live-aperol-01.webp',
-  'assets/Live/live-aperol-02.webp',
-  'assets/Live/live-aperol-03.webp',
-  'assets/Live/live-aperol-08.webp',
-  'assets/Live/live-aperol-05.jpg',
-  'assets/Live/live-aperol-06.webp',
-  'assets/Live/live-aperol-07.webp',
-  'assets/Live/live-aperol-08.webp',
+  'assets/Live/aperol%2025/live-aperol-01.webp',
+  'assets/Live/aperol%2025/live-aperol-02.webp',
+  'assets/Live/aperol%2025/live-aperol-03.webp',
+  'assets/Live/aperol%2025/live-aperol-04.webp',
+  'assets/Live/aperol%2025/live-aperol-05.jpg',
+  'assets/Live/aperol%2025/live-aperol-06.webp',
+  'assets/Live/aperol%2025/live-aperol-07.webp',
+  'assets/Live/aperol%2025/live-aperol-08.webp',
 ];
 
 const GALLERY_MEJIA = [
-  'assets/Live/live-mejia-01.webp',
-  'assets/Live/live-mejia-02.webp',
-  'assets/Live/live-mejia-03.webp',
-  'assets/Live/live-mejia-04.webp',
-  'assets/Live/live-mejia-07.webp',
-  'assets/Live/live-mejia-06.webp',
-  'assets/Live/live-mejia-08.webp',
-  'assets/Live/live-mejia-09.webp',
-  'assets/Live/live-mejia-05.webp',
+  'assets/Live/mejia/live-mejia-01.webp',
+  'assets/Live/mejia/live-mejia-02.webp',
+  'assets/Live/mejia/live-mejia-03.webp',
+  'assets/Live/mejia/live-mejia-04.webp',
+  'assets/Live/mejia/live-mejia-07.webp',
+  'assets/Live/mejia/live-mejia-08.webp',
+  'assets/Live/mejia/live-mejia-09.webp',
+  'assets/Live/mejia/live-mejia-05.webp',
+  'assets/Live/aperol%2025/live-mejia-06.webp',
+];
+
+const GALLERY_LA_NOCHE = [
+  'assets/Live/la%20noche%201905/LaNoche_01.webp',
+  'assets/Live/la%20noche%201905/LaNoche_02.webp',
+  'assets/Live/la%20noche%201905/LaNoche_03.webp',
+  'assets/Live/la%20noche%201905/LaNoche_04.webp',
+  'assets/Live/la%20noche%201905/LaNoche_05.webp',
+  'assets/Live/la%20noche%201905/LaNoche_06.webp',
+  'assets/Live/la%20noche%201905/LaNoche_08.webp',
+  'assets/Live/la%20noche%201905/LaNoche_09.webp',
+  'assets/Live/la%20noche%201905/LaNoche_010.webp',
+  'assets/Live/la%20noche%201905/LaNoche_011.webp',
 ];
 
 const PREVIEW_COUNT = 4;
@@ -289,12 +302,9 @@ function buildGallery(containerId, photos) {
   });
 }
 
-buildGallery('gallery-aperol', GALLERY_APEROL);
-buildGallery('gallery-mejia',  GALLERY_MEJIA);
-
-document.querySelectorAll('.gallery-item img[src*="live-mejia-05"]').forEach(img => {
-  img.closest('.gallery-item').classList.add('gallery-item--reduced');
-});
+buildGallery('gallery-la-noche', GALLERY_LA_NOCHE);
+buildGallery('gallery-aperol',   GALLERY_APEROL);
+buildGallery('gallery-mejia',    GALLERY_MEJIA);
 
 // Expand / collapse buttons
 document.querySelectorAll('.gallery-expand-btn').forEach(btn => {
@@ -333,7 +343,7 @@ const lightbox  = document.getElementById('lightbox');
 const lbImg     = lightbox?.querySelector('.lightbox-img');
 const lbCounter = lightbox?.querySelector('.lightbox-counter');
 let currentIdx   = 0;
-let currentGroup = GALLERY_APEROL;
+let currentGroup = GALLERY_LA_NOCHE;
 
 function updateCounter() {
   if (lbCounter) lbCounter.textContent = `${currentIdx + 1} / ${currentGroup.length}`;
@@ -369,10 +379,16 @@ function nextPhoto() {
   updateCounter();
 }
 
+const GALLERY_MAP = {
+  'gallery-la-noche': GALLERY_LA_NOCHE,
+  'gallery-aperol':   GALLERY_APEROL,
+  'gallery-mejia':    GALLERY_MEJIA,
+};
+
 function handleGalleryClick(e) {
   const item = e.target.closest('.gallery-item');
   if (!item) return;
-  const group = item.dataset.group === 'gallery-mejia' ? GALLERY_MEJIA : GALLERY_APEROL;
+  const group = GALLERY_MAP[item.dataset.group] ?? GALLERY_LA_NOCHE;
   openLightbox(parseInt(item.dataset.index), group);
 }
 
@@ -380,15 +396,17 @@ function handleGalleryKeydown(e) {
   const item = e.target.closest('.gallery-item');
   if (item && (e.key === 'Enter' || e.key === ' ')) {
     e.preventDefault();
-    const group = item.dataset.group === 'gallery-mejia' ? GALLERY_MEJIA : GALLERY_APEROL;
+    const group = GALLERY_MAP[item.dataset.group] ?? GALLERY_LA_NOCHE;
     openLightbox(parseInt(item.dataset.index), group);
   }
 }
 
-document.getElementById('gallery-aperol')?.addEventListener('click',   handleGalleryClick);
-document.getElementById('gallery-aperol')?.addEventListener('keydown', handleGalleryKeydown);
-document.getElementById('gallery-mejia')?.addEventListener('click',    handleGalleryClick);
-document.getElementById('gallery-mejia')?.addEventListener('keydown',  handleGalleryKeydown);
+document.getElementById('gallery-la-noche')?.addEventListener('click',   handleGalleryClick);
+document.getElementById('gallery-la-noche')?.addEventListener('keydown', handleGalleryKeydown);
+document.getElementById('gallery-aperol')?.addEventListener('click',     handleGalleryClick);
+document.getElementById('gallery-aperol')?.addEventListener('keydown',   handleGalleryKeydown);
+document.getElementById('gallery-mejia')?.addEventListener('click',      handleGalleryClick);
+document.getElementById('gallery-mejia')?.addEventListener('keydown',    handleGalleryKeydown);
 
 if (lightbox) {
   lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
