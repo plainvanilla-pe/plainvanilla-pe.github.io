@@ -377,6 +377,10 @@ section { padding: var(--section-v) 0; }
   .carousel-dot   { width: 10px; height: 10px; }
   .carousel-slide { bottom: 3rem; }
   .carousel-dots  { bottom: 0; height: 3rem; align-items: center; }
+  .hero-bg {
+    inset: 0;
+    background-position: center 25%;
+  }
 }
 
 .hero-bg {
@@ -673,10 +677,10 @@ section { padding: var(--section-v) 0; }
 /* Galería page intro */
 .galeria-intro {
   padding-top: 4rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0;
 }
 
-#galeria { padding-top: 2rem; }
+#galeria { padding-top: 1.5rem; }
 
 /* Gallery sections */
 .gallery-section {
