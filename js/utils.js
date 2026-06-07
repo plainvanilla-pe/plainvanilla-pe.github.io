@@ -8,7 +8,7 @@
     const navbar    = document.getElementById('navbar');
     const hamburger = document.querySelector('.hamburger');
     const navLinks  = document.querySelector('.nav-links');
-    if (!hamburger) return;
+    if (!hamburger || !navLinks) return;
 
     function closeMenu() {
       hamburger.classList.remove('open');
