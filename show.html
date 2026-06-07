@@ -6,10 +6,14 @@
   <title>Plain Vanilla — La Noche de Barranco · 19 Mayo 2026</title>
   <meta name="description" content="Plain Vanilla en vivo. La Noche de Barranco, Lima. Martes 19 de Mayo 2026 · 10:00 PM. Consigue tus entradas ahora.">
 
+  <!-- Canonical -->
+  <link rel="canonical" href="https://plainvanilla-pe.github.io/show.html">
+
   <!-- Open Graph -->
   <meta property="og:title"       content="Plain Vanilla en vivo — La Noche de Barranco">
   <meta property="og:description" content="Martes 19 de Mayo · 10:00 PM · La Noche de Barranco, Lima. Consigue tus entradas.">
-  <meta property="og:image"       content="assets/proximo-show/1.webp">
+  <meta property="og:image"       content="https://plainvanilla-pe.github.io/assets/Live/la%20noche%201905/LaNoche_02.webp">
+  <meta property="og:url"         content="https://plainvanilla-pe.github.io/show.html">
   <meta property="og:type"        content="event">
   <meta property="og:locale"      content="es_PE">
 
@@ -17,7 +21,10 @@
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="Plain Vanilla en vivo — La Noche de Barranco">
   <meta name="twitter:description" content="Martes 19 de Mayo · 10:00 PM · Lima. Consigue tus entradas.">
-  <meta name="twitter:image"       content="assets/proximo-show/1.webp">
+  <meta name="twitter:image"       content="https://plainvanilla-pe.github.io/assets/Live/la%20noche%201905/LaNoche_02.webp">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/Marca/logo.png" type="image/png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -287,7 +294,34 @@
     <p>&copy; 2026 Plain Vanilla. Lima, Perú.</p>
   </footer>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicEvent",
+    "name": "Plain Vanilla — La Noche de Barranco",
+    "startDate": "2026-05-19T22:00:00-05:00",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "description": "Plain Vanilla en vivo en La Noche de Barranco, Lima. Martes 19 de Mayo 2026 a las 10 PM.",
+    "url": "https://plainvanilla-pe.github.io/show.html",
+    "performer": {
+      "@type": "MusicGroup",
+      "name": "Plain Vanilla",
+      "url": "https://plainvanilla-pe.github.io/"
+    },
+    "location": {
+      "@type": "MusicVenue",
+      "name": "La Noche de Barranco",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Sanchez Carrion 199",
+        "addressLocality": "Barranco",
+        "addressRegion": "Lima",
+        "addressCountry": "PE"
+      }
+    }
+  }
+  </script>
   <script src="show.js"></script>
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </body>
 </html>
