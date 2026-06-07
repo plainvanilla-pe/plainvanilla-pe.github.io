@@ -120,33 +120,10 @@
   tick();
 })();
 
-// ── NAVBAR SCROLL ─────────────────────────────────────────────
+// ── NAVBAR & HAMBURGER ────────────────────────────────────────
+PVUtils.initNavbar();
+
 const navbar = document.getElementById('navbar');
-
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-  if (hamburger.classList.contains('open')) closeMenu();
-}, { passive: true });
-
-// ── HAMBURGER MENU ────────────────────────────────────────────
-const hamburger = document.querySelector('.hamburger');
-const navLinks  = document.querySelector('.nav-links');
-
-function closeMenu() {
-  hamburger.classList.remove('open');
-  navLinks.classList.remove('open');
-  hamburger.setAttribute('aria-expanded', 'false');
-}
-
-hamburger.addEventListener('click', () => {
-  const isOpen = hamburger.classList.toggle('open');
-  navLinks.classList.toggle('open', isOpen);
-  hamburger.setAttribute('aria-expanded', String(isOpen));
-});
-
-navLinks.querySelectorAll('a').forEach(link =>
-  link.addEventListener('click', closeMenu)
-);
 
 // ── SMOOTH SCROLL WITH NAV OFFSET ─────────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -176,26 +153,7 @@ if (heroBg && !reduceMotion) {
 }
 
 // ── FADE-IN ON SCROLL ─────────────────────────────────────────
-const fadeObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      // stagger siblings
-      const siblings = entry.target.parentElement.querySelectorAll('.fade-in');
-      let delay = 0;
-      siblings.forEach(el => {
-        if (el === entry.target) {
-          el.style.transitionDelay = `${delay}ms`;
-          el.classList.add('visible');
-          delay += 80;
-        }
-      });
-      entry.target.classList.add('visible');
-      fadeObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+const fadeObserver = PVUtils.initFadeIn();
 
 // ── COUNTDOWN (Release: 9 de mayo 2026) ──────────────────────
 (function initReleaseCountdown() {
@@ -239,14 +197,14 @@ document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
 // ── GALLERY BUILD & LIGHTBOX ──────────────────────────────────
 const GALLERY_APEROL = [
-  'assets/Live/aperol%2025/live-aperol-01.webp',
-  'assets/Live/aperol%2025/live-aperol-02.webp',
-  'assets/Live/aperol%2025/live-aperol-03.webp',
-  'assets/Live/aperol%2025/live-aperol-04.webp',
-  'assets/Live/aperol%2025/live-aperol-05.jpg',
-  'assets/Live/aperol%2025/live-aperol-06.webp',
-  'assets/Live/aperol%2025/live-aperol-07.webp',
-  'assets/Live/aperol%2025/live-aperol-08.webp',
+  'assets/Live/aperol-25/live-aperol-01.webp',
+  'assets/Live/aperol-25/live-aperol-02.webp',
+  'assets/Live/aperol-25/live-aperol-03.webp',
+  'assets/Live/aperol-25/live-aperol-04.webp',
+  'assets/Live/aperol-25/live-aperol-05.jpg',
+  'assets/Live/aperol-25/live-aperol-06.webp',
+  'assets/Live/aperol-25/live-aperol-07.webp',
+  'assets/Live/aperol-25/live-aperol-08.webp',
 ];
 
 const GALLERY_MEJIA = [
@@ -258,20 +216,20 @@ const GALLERY_MEJIA = [
   'assets/Live/mejia/live-mejia-08.webp',
   'assets/Live/mejia/live-mejia-09.webp',
   'assets/Live/mejia/live-mejia-05.webp',
-  'assets/Live/aperol%2025/live-mejia-06.webp',
+  'assets/Live/aperol-25/live-mejia-06.webp',
 ];
 
 const GALLERY_LA_NOCHE = [
-  'assets/Live/la%20noche%201905/LaNoche_01.webp',
-  'assets/Live/la%20noche%201905/LaNoche_02.webp',
-  'assets/Live/la%20noche%201905/LaNoche_03.webp',
-  'assets/Live/la%20noche%201905/LaNoche_04.webp',
-  'assets/Live/la%20noche%201905/LaNoche_05.webp',
-  'assets/Live/la%20noche%201905/LaNoche_06.webp',
-  'assets/Live/la%20noche%201905/LaNoche_08.webp',
-  'assets/Live/la%20noche%201905/LaNoche_09.webp',
-  'assets/Live/la%20noche%201905/LaNoche_010.webp',
-  'assets/Live/la%20noche%201905/LaNoche_011.webp',
+  'assets/Live/la-noche-1905/LaNoche_01.webp',
+  'assets/Live/la-noche-1905/LaNoche_02.webp',
+  'assets/Live/la-noche-1905/LaNoche_03.webp',
+  'assets/Live/la-noche-1905/LaNoche_04.webp',
+  'assets/Live/la-noche-1905/LaNoche_05.webp',
+  'assets/Live/la-noche-1905/LaNoche_06.webp',
+  'assets/Live/la-noche-1905/LaNoche_08.webp',
+  'assets/Live/la-noche-1905/LaNoche_09.webp',
+  'assets/Live/la-noche-1905/LaNoche_010.webp',
+  'assets/Live/la-noche-1905/LaNoche_011.webp',
 ];
 
 const PREVIEW_COUNT = 4;

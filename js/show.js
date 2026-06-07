@@ -3,45 +3,9 @@
    Specific logic for show.html (event page)
    ============================================================ */
 
-// ── NAVBAR SCROLL ─────────────────────────────────────────────
-const navbar = document.getElementById('navbar');
-
-// ── HAMBURGER MENU ────────────────────────────────────────────
-const hamburger = document.querySelector('.hamburger');
-const navLinks  = document.querySelector('.nav-links');
-
-function closeMenu() {
-  hamburger.classList.remove('open');
-  navLinks.classList.remove('open');
-  hamburger.setAttribute('aria-expanded', 'false');
-}
-
-hamburger.addEventListener('click', () => {
-  const isOpen = hamburger.classList.toggle('open');
-  navLinks.classList.toggle('open', isOpen);
-  hamburger.setAttribute('aria-expanded', String(isOpen));
-});
-
-navLinks.querySelectorAll('a').forEach(link =>
-  link.addEventListener('click', closeMenu)
-);
-
-window.addEventListener('scroll', () => {
-  navbar?.classList.toggle('scrolled', window.scrollY > 60);
-  if (hamburger.classList.contains('open')) closeMenu();
-}, { passive: true });
-
-// ── FADE-IN ON SCROLL ─────────────────────────────────────────
-const fadeObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      fadeObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+// ── NAVBAR, HAMBURGER & FADE-IN ───────────────────────────────
+PVUtils.initNavbar();
+PVUtils.initFadeIn();
 
 // ── PARALLAX HERO ─────────────────────────────────────────────
 // Parallax desactivado: hero usa background-size: contain, el transform lo recortaría
