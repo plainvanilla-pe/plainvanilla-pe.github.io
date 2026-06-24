@@ -225,21 +225,21 @@
   <section id="en-vivo">
     <div class="container">
       <p class="eyebrow fade-in">En Vivo</p>
-      <h2 class="section-title fade-in">Momentos que no se repiten</h2>
+      <h2 class="section-title fade-in">Rompiendo la tarima</h2>
 
       <!-- Tabs de evento -->
-      <nav class="ev-tabs fade-in" aria-label="Seleccionar evento">
-        <button class="ev-tab is-active" data-event="la-noche" aria-selected="true">La Noche de Barranco</button>
-        <button class="ev-tab" data-event="aperol" aria-selected="false">Aperol O'clock</button>
-        <button class="ev-tab" data-event="mejia" aria-selected="false">Laguna Pai</button>
+      <nav class="ev-tabs fade-in" aria-label="Seleccionar evento" role="tablist">
+        <button class="ev-tab is-active" role="tab" data-event="la-noche" aria-selected="true">La Noche de Barranco</button>
+        <button class="ev-tab" role="tab" data-event="mejia" aria-selected="false">Laguna Pai</button>
+        <button class="ev-tab" role="tab" data-event="aperol" aria-selected="false">Aperol O'clock</button>
       </nav>
 
       <!-- Stage — video destacado -->
-      <div class="ev-stage fade-in">
+      <div class="ev-stage fade-in" id="ev-stage">
         <div class="ev-stage-video">
           <iframe
             id="ev-featured"
-            src="https://www.youtube.com/embed/dQ9UH9av3Kg"
+            src="https://www.youtube.com/embed/cYXllpHXKWI"
             title="Plain Vanilla — En Vivo"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -250,11 +250,14 @@
       </div>
       <p class="ev-stage-caption fade-in" id="ev-caption">La Noche de Barranco &nbsp;·&nbsp; 19 de mayo · Barranco, Lima</p>
 
-      <!-- Grid mezclado: videos + fotos — poblado por JS -->
-      <div class="ev-grid gallery-grid" id="ev-grid" aria-label="Videos y fotos en vivo"></div>
+      <!-- Botones de canción — poblados por JS -->
+      <div class="ev-songs" id="ev-songs"></div>
+
+      <!-- Grid de fotos (max 5, estilo Pinterest) — poblado por JS -->
+      <div class="ev-grid gallery-grid" id="ev-grid" aria-label="Fotos en vivo"></div>
 
       <div class="ev-cta fade-in">
-        <a href="galeria.html" class="btn btn-outline">Ver archivo completo →</a>
+        <a href="galeria.html" class="btn btn-outline">Ver más →</a>
       </div>
     </div>
   </section>
@@ -502,6 +505,7 @@
   }
   </script>
   <script src="js/utils.js"></script>
+  <script src="js/events-data.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ PVUtils.initFadeIn();
 // Parallax desactivado: hero usa background-size: contain, el transform lo recortaría
 
 // ── COUNTDOWN — SHOW DATE ────────────────────────────────────
-const SHOW_DATE = new Date('2026-05-19T22:00:00-05:00'); // La Noche de Barranco — 19 mayo 2026, 10PM Lima
+const SHOW_DATE = PVUtils.SHOW_DATE;
 
 (function initShowCountdown() {
   const countdownEl = document.getElementById('countdown-show');

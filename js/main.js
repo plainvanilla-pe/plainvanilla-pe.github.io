@@ -102,7 +102,7 @@
   const countdownEl = document.getElementById('countdown-show');
   if (!countdownEl) return;
 
-  const SHOW_DATE = new Date('2026-05-19T22:00:00-05:00');
+  const SHOW_DATE = PVUtils.SHOW_DATE;
 
   function tick() {
     const diff = SHOW_DATE - Date.now();
@@ -196,41 +196,7 @@ const fadeObserver = PVUtils.initFadeIn();
 })();
 
 // ── GALLERY BUILD & LIGHTBOX ──────────────────────────────────
-const GALLERY_APEROL = [
-  'assets/Live/aperol-25/live-aperol-01.webp',
-  'assets/Live/aperol-25/live-aperol-02.webp',
-  'assets/Live/aperol-25/live-aperol-03.webp',
-  'assets/Live/aperol-25/live-aperol-04.webp',
-  'assets/Live/aperol-25/live-aperol-05.jpg',
-  'assets/Live/aperol-25/live-aperol-06.webp',
-  'assets/Live/aperol-25/live-aperol-07.webp',
-  'assets/Live/aperol-25/live-aperol-08.webp',
-];
-
-const GALLERY_MEJIA = [
-  'assets/Live/mejia/live-mejia-01.webp',
-  'assets/Live/mejia/live-mejia-02.webp',
-  'assets/Live/mejia/live-mejia-03.webp',
-  'assets/Live/mejia/live-mejia-04.webp',
-  'assets/Live/mejia/live-mejia-07.webp',
-  'assets/Live/mejia/live-mejia-08.webp',
-  'assets/Live/mejia/live-mejia-09.webp',
-  'assets/Live/mejia/live-mejia-05.webp',
-  'assets/Live/aperol-25/live-mejia-06.webp',
-];
-
-const GALLERY_LA_NOCHE = [
-  'assets/Live/la-noche-1905/LaNoche_01.webp',
-  'assets/Live/la-noche-1905/LaNoche_02.webp',
-  'assets/Live/la-noche-1905/LaNoche_03.webp',
-  'assets/Live/la-noche-1905/LaNoche_04.webp',
-  'assets/Live/la-noche-1905/LaNoche_05.webp',
-  'assets/Live/la-noche-1905/LaNoche_06.webp',
-  'assets/Live/la-noche-1905/LaNoche_08.webp',
-  'assets/Live/la-noche-1905/LaNoche_09.webp',
-  'assets/Live/la-noche-1905/LaNoche_010.webp',
-  'assets/Live/la-noche-1905/LaNoche_011.webp',
-];
+// Los datos de galerías y eventos viven en js/events-data.js
 
 const PREVIEW_COUNT = 4;
 
@@ -359,12 +325,6 @@ function handleGalleryKeydown(e) {
   }
 }
 
-document.getElementById('gallery-la-noche')?.addEventListener('click',   handleGalleryClick);
-document.getElementById('gallery-la-noche')?.addEventListener('keydown', handleGalleryKeydown);
-document.getElementById('gallery-aperol')?.addEventListener('click',     handleGalleryClick);
-document.getElementById('gallery-aperol')?.addEventListener('keydown',   handleGalleryKeydown);
-document.getElementById('gallery-mejia')?.addEventListener('click',      handleGalleryClick);
-document.getElementById('gallery-mejia')?.addEventListener('keydown',    handleGalleryKeydown);
 
 if (lightbox) {
   lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
@@ -400,33 +360,21 @@ if (lightbox) {
   const section = document.getElementById('en-vivo');
   if (!section) return;
 
-  // ── Datos de eventos ──────────────────────────────────────
-  // TODO: reemplazar los youtubeId marcados con "→" con los IDs correctos
   const events = [
     {
-      id: 'la-noche',
-      label: 'La Noche de Barranco',
+      id: 'la-noche', label: 'La Noche de Barranco',
       caption: 'La Noche de Barranco · 19 de mayo · Barranco, Lima',
-      featuredVideo: 'dQ9UH9av3Kg',
+      featuredVideo: 'cYXllpHXKWI',
       videos: [
-        { youtubeId: '_6mXFVPkBbE',  song: 'En Vivo' },
-        { youtubeId: 'cYXllpHXKWI',  song: 'Darte Amor & Bossabebé' },
-        { youtubeId: 'DGf1VXfo1ag',  song: 'Gata Siamés' },
-        { youtubeId: 'nuBomyCoUS8',  song: 'Romina' },
+        { youtubeId: '_6mXFVPkBbE', song: 'Funky Rap' },
+        { youtubeId: 'cYXllpHXKWI', song: 'Darte Amor & Bossabebé' },
+        { youtubeId: 'DGf1VXfo1ag', song: 'Gata Siamés' },
+        { youtubeId: 'nuBomyCoUS8', song: 'Romina' },
       ],
       photos: GALLERY_LA_NOCHE,
     },
     {
-      id: 'aperol',
-      label: "Aperol O'clock",
-      caption: "Aperol O'clock · Lima",
-      featuredVideo: 'gZ8BKcrG7ZQ',
-      videos: [],
-      photos: GALLERY_APEROL,
-    },
-    {
-      id: 'mejia',
-      label: 'Laguna Pai',
+      id: 'mejia', label: 'Apertura a Laguna Pai',
       caption: 'Apertura a Laguna Pai · Mejía, Arequipa',
       featuredVideo: 'Dt7FpINKjpA',
       videos: [
@@ -435,146 +383,116 @@ if (lightbox) {
       ],
       photos: GALLERY_MEJIA,
     },
+    {
+      id: 'aperol', label: "Aperol O'clock",
+      caption: '', featuredVideo: null, videos: [], photos: GALLERY_APEROL,
+    },
   ];
 
-  // ── DOM refs ──────────────────────────────────────────────
   const tabs       = section.querySelectorAll('.ev-tab');
   const featuredEl = document.getElementById('ev-featured');
   const captionEl  = document.getElementById('ev-caption');
-  const grid       = document.getElementById('ev-grid');
+  const stageEl    = document.getElementById('ev-stage');
   const stageWrap  = section.querySelector('.ev-stage-video');
+  const songsEl    = document.getElementById('ev-songs');
+  const grid       = document.getElementById('ev-grid');
 
-  let nowPlayingCard = null;
+  let switchTimer = null;
+  let isSwitching = false;
 
-  // ── Mezcla fotos y videos a intervalos uniformes ──────────
-  function buildMixedItems(videos, photos) {
-    const photoItems = photos.map((src, i) => ({ type: 'photo', src, index: i }));
-    const result = [...photoItems];
-    videos.forEach((video, vIdx) => {
-      const pos = Math.round(((vIdx + 1) / (videos.length + 1)) * photos.length);
-      result.splice(pos + vIdx, 0, { type: 'video', ...video });
-    });
-    return result;
-  }
-
-  // ── Construye el grid para un evento ─────────────────────
-  function buildGrid(event) {
-    grid.innerHTML = '';
-    GALLERY_MAP[event.id] = event.photos;
-
-    const items = buildMixedItems(event.videos, event.photos);
-
-    items.forEach(item => {
-      if (item.type === 'video') {
-        const card = document.createElement('div');
-        card.className = 'ev-card--video fade-in';
-        card.dataset.youtubeId = item.youtubeId;
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', `Reproducir: ${item.song}`);
-
-        const thumbWrap = document.createElement('div');
-        thumbWrap.className = 'ev-thumb-wrap';
-
-        const img = document.createElement('img');
-        img.src = `https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`;
-        img.alt = `Plain Vanilla en vivo — ${item.song}`;
-        img.loading = 'lazy';
-        img.decoding = 'async';
-
-        const overlay = document.createElement('div');
-        overlay.className = 'ev-play-overlay';
-        const playIcon = document.createElement('div');
-        playIcon.className = 'ev-play-icon';
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('viewBox', '0 0 24 24');
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', 'M8 5v14l11-7z');
-        svg.appendChild(path);
-        playIcon.appendChild(svg);
-        overlay.appendChild(playIcon);
-
-        const songLabel = document.createElement('div');
-        songLabel.className = 'ev-song-label';
-        songLabel.textContent = item.song;
-
-        thumbWrap.appendChild(img);
-        thumbWrap.appendChild(overlay);
-        thumbWrap.appendChild(songLabel);
-        card.appendChild(thumbWrap);
-        grid.appendChild(card);
-        fadeObserver.observe(card);
-
-        card.addEventListener('click',   () => handleVideoClick(card, item.youtubeId));
-        card.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleVideoClick(card, item.youtubeId); }
-        });
-
-      } else {
-        const card = document.createElement('div');
-        card.className = 'gallery-item ev-card--photo fade-in';
-        card.dataset.index = item.index;
-        card.dataset.group = event.id;
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', `Ver foto ${item.index + 1} de ${event.photos.length}`);
-
-        const img = document.createElement('img');
-        img.src = item.src;
-        img.alt = `Plain Vanilla en vivo — foto ${item.index + 1}`;
-        img.loading = 'lazy';
-        img.decoding = 'async';
-
-        card.appendChild(img);
-        grid.appendChild(card);
-        fadeObserver.observe(card);
-      }
+  // ── Song title buttons ────────────────────────────────────
+  function buildSongs(event) {
+    songsEl.innerHTML = '';
+    event.videos.forEach(video => {
+      const btn = document.createElement('button');
+      btn.className = 'ev-song-btn';
+      btn.textContent = video.song;
+      btn.addEventListener('click', () => {
+        songsEl.querySelectorAll('.ev-song-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        loadVideo(video.youtubeId);
+      });
+      songsEl.appendChild(btn);
     });
   }
 
-  // ── Click en card de video → Now Playing ─────────────────
-  function handleVideoClick(card, youtubeId) {
-    if (nowPlayingCard) nowPlayingCard.classList.remove('ev-card--now-playing');
-    nowPlayingCard = card;
-    card.classList.add('ev-card--now-playing');
-
+  // ── Load video into featured stage ────────────────────────
+  function loadVideo(youtubeId) {
     stageWrap.classList.add('is-fading');
     setTimeout(() => {
       featuredEl.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
       stageWrap.classList.remove('is-fading');
     }, 300);
-
     const offset = navbar.offsetHeight + 16;
-    const top = section.querySelector('.ev-stage').getBoundingClientRect().top + window.scrollY - offset;
+    const top = stageEl.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top, behavior: 'smooth' });
   }
 
-  // ── Cambio de tab ─────────────────────────────────────────
+  // ── Photo grid — max 5, Pinterest 2-col ──────────────────
+  function buildGrid(event) {
+    grid.innerHTML = '';
+    GALLERY_MAP[event.id] = event.photos;
+
+    event.photos.slice(0, 5).forEach((src, i) => {
+      const card = document.createElement('div');
+      card.className = 'gallery-item ev-card--photo fade-in';
+      card.dataset.index = i;
+      card.dataset.group = event.id;
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `Ver foto ${i + 1} de ${event.photos.length}`);
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Plain Vanilla en vivo — foto ${i + 1}`;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+
+      card.appendChild(img);
+      grid.appendChild(card);
+      fadeObserver.observe(card);
+    });
+  }
+
+  // ── Switch event tab ──────────────────────────────────────
   function switchEvent(event) {
+    clearTimeout(switchTimer);
+    isSwitching = true;
+
     tabs.forEach(tab => {
       const active = tab.dataset.event === event.id;
       tab.classList.toggle('is-active', active);
       tab.setAttribute('aria-selected', active ? 'true' : 'false');
     });
 
-    stageWrap.classList.add('is-fading');
+    if (event.featuredVideo) stageWrap.classList.add('is-fading');
     grid.classList.add('is-fading');
     captionEl.style.opacity = '0';
 
-    setTimeout(() => {
-      featuredEl.src = `https://www.youtube.com/embed/${event.featuredVideo}`;
-      captionEl.textContent = event.caption;
+    switchTimer = setTimeout(() => {
+      if (event.featuredVideo) {
+        stageEl.classList.remove('ev-stage--hidden');
+        captionEl.classList.remove('ev-caption--hidden');
+        featuredEl.src = `https://www.youtube.com/embed/${event.featuredVideo}`;
+        captionEl.textContent = event.caption;
+        stageWrap.classList.remove('is-fading');
+        captionEl.style.opacity = '';
+      } else {
+        stageEl.classList.add('ev-stage--hidden');
+        captionEl.classList.add('ev-caption--hidden');
+      }
+
+      buildSongs(event);
       buildGrid(event);
-      nowPlayingCard = null;
-      stageWrap.classList.remove('is-fading');
       grid.classList.remove('is-fading');
-      captionEl.style.opacity = '';
+      isSwitching = false;
     }, 350);
   }
 
-  // ── Tab clicks ────────────────────────────────────────────
+  // ── Tab clicks + keyboard ─────────────────────────────────
   tabs.forEach((tab, i) => {
     tab.addEventListener('click', () => {
+      if (isSwitching) return;
       const event = events.find(e => e.id === tab.dataset.event);
       if (event) switchEvent(event);
     });
@@ -584,10 +502,11 @@ if (lightbox) {
     });
   });
 
-  // ── Lightbox para fotos del grid ──────────────────────────
+  // ── Lightbox para fotos ───────────────────────────────────
   grid.addEventListener('click',   handleGalleryClick);
   grid.addEventListener('keydown', handleGalleryKeydown);
 
-  // ── Build inicial ─────────────────────────────────────────
+  // ── Init ──────────────────────────────────────────────────
+  buildSongs(events[0]);
   buildGrid(events[0]);
 })();

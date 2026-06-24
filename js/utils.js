@@ -45,5 +45,9 @@
     return observer;
   }
 
-  window.PVUtils = { initNavbar, initFadeIn };
+  window.PVUtils = {
+    initNavbar,
+    initFadeIn,
+    SHOW_DATE: new Date('2026-05-19T22:00:00-05:00'),
+  };
 })();
