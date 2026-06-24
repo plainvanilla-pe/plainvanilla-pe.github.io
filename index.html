@@ -48,12 +48,9 @@
 
     <ul class="nav-links" id="nav-menu">
       <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#live">Live</a></li>
-      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="#en-vivo">En Vivo</a></li>
       <li><a href="#musica">Música</a></li>
-      <li><a href="#videoclips">Videoclips</a></li>
       <li><a href="#contacto">Contacto</a></li>
-      <li><a href="#live" class="nav-show-btn">La Noche →</a></li>
     </ul>
 
     <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
@@ -85,7 +82,7 @@
         <p class="eyebrow" style="color:var(--accent);letter-spacing:0.25em;">EN VIVO — 19.05.26</p>
         <h2 class="show-title">La Noche<br>de Barranco</h2>
         <p style="color:var(--muted);font-family:'Space Grotesk',sans-serif;letter-spacing:0.15em;text-transform:uppercase;font-size:0.85rem;margin:-1rem 0 0;">Barranco, Lima</p>
-        <a href="#live" class="btn btn-outline">Ver el recap →</a>
+        <a href="#en-vivo" class="btn btn-outline">Ver el recap →</a>
       </div>
     </div>
 
@@ -223,48 +220,41 @@
 
 
   <!-- ══════════════════════════════════════════
-       LIVE
+       EN VIVO — HUB UNIFICADO
   ══════════════════════════════════════════ -->
-  <section id="live">
+  <section id="en-vivo">
     <div class="container">
-      <p class="eyebrow fade-in" style="text-align:center;margin-bottom:0.5rem;">EN VIVO — LA NOCHE DE BARRANCO</p>
-      <h2 class="section-title fade-in">La Noche<br>de Barranco</h2>
-      <p class="section-subtitle fade-in">19 de mayo · Barranco, Lima</p>
+      <p class="eyebrow fade-in">En Vivo</p>
+      <h2 class="section-title fade-in">Momentos que no se repiten</h2>
 
-      <div class="fomo-video-col fade-in" style="max-width:860px;margin:0 auto 2rem">
-        <div class="fomo-video-main">
+      <!-- Tabs de evento -->
+      <nav class="ev-tabs fade-in" aria-label="Seleccionar evento">
+        <button class="ev-tab is-active" data-event="la-noche" aria-selected="true">La Noche de Barranco</button>
+        <button class="ev-tab" data-event="aperol" aria-selected="false">Aperol O'clock</button>
+        <button class="ev-tab" data-event="mejia" aria-selected="false">Laguna Pai</button>
+      </nav>
+
+      <!-- Stage — video destacado -->
+      <div class="ev-stage fade-in">
+        <div class="ev-stage-video">
           <iframe
+            id="ev-featured"
             src="https://www.youtube.com/embed/dQ9UH9av3Kg"
-            title="Plain Vanilla — La Noche de Barranco (En Vivo)"
+            title="Plain Vanilla — En Vivo"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen loading="lazy">
           </iframe>
         </div>
-        <div class="fomo-video-row">
-          <div class="fomo-video-small">
-            <iframe
-              src="https://www.youtube.com/embed/_6mXFVPkBbE"
-              title="Plain Vanilla en vivo — La Noche de Barranco"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen loading="lazy">
-            </iframe>
-          </div>
-        </div>
       </div>
+      <p class="ev-stage-caption fade-in" id="ev-caption">La Noche de Barranco &nbsp;·&nbsp; 19 de mayo · Barranco, Lima</p>
 
-      <!-- Galería La Noche — se puebla con main.js -->
-      <div class="gallery-section fade-in">
-        <div class="gallery-section-header">
-          <h3 class="gallery-section-title">La Noche de Barranco &nbsp;<span class="gallery-section-meta">19 de mayo · Lima · 2026</span></h3>
-        </div>
-        <div class="gallery-grid" id="gallery-la-noche" aria-label="Fotos La Noche de Barranco"></div>
-        <a href="galeria.html" class="btn btn-primary" style="margin-top:1.5rem">
-          Galería →
-        </a>
+      <!-- Grid mezclado: videos + fotos — poblado por JS -->
+      <div class="ev-grid gallery-grid" id="ev-grid" aria-label="Videos y fotos en vivo"></div>
+
+      <div class="ev-cta fade-in">
+        <a href="galeria.html" class="btn btn-outline">Ver archivo completo →</a>
       </div>
     </div>
   </section>
@@ -357,39 +347,6 @@
           </div>
           <h3>VIVO Y FINO</h3>
           <a href="https://open.spotify.com/intl-es/album/0TxqgWVaQvHPiJQagavPEP?si=i4xYRVoyTY66tYGq8T2piw" class="btn btn-sm btn-outline" target="_blank" rel="noopener">ESCUCHAR</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ══════════════════════════════════════════
-       VIDEOCLIPS
-  ══════════════════════════════════════════ -->
-  <section id="videoclips">
-    <div class="container">
-      <h2 class="section-title fade-in">VIDEOCLIPS</h2>
-      <p class="videoclips-quote fade-in">Música, imagen y energía conversan un mismo lenguaje.</p>
-
-      <div class="videoclips-grid">
-
-        <div class="videoclip-wrap fade-in">
-          <iframe
-            src="https://www.youtube.com/embed/MkhNbPwUZTw"
-            title="Plain Vanilla — Final de Cortesía (Video - 1/2)"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen loading="lazy">
-          </iframe>
-        </div>
-
-        <div class="videoclip-wrap fade-in">
-          <iframe
-            src="https://www.youtube.com/embed/FStexjIv_WQ"
-            title="Plain Vanilla — Videoclip 2"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen loading="lazy">
-          </iframe>
         </div>
 
       </div>
