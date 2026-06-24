@@ -230,6 +230,12 @@ buildGallery('gallery-la-noche', GALLERY_LA_NOCHE);
 buildGallery('gallery-aperol',   GALLERY_APEROL);
 buildGallery('gallery-mejia',    GALLERY_MEJIA);
 
+const galeriaSection = document.getElementById('galeria');
+if (galeriaSection) {
+  galeriaSection.addEventListener('click',   handleGalleryClick);
+  galeriaSection.addEventListener('keydown', handleGalleryKeydown);
+}
+
 // Expand / collapse buttons
 document.querySelectorAll('.gallery-expand-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -379,11 +385,11 @@ if (lightbox) {
     loadVideo(btn.dataset.youtubeId);
   });
 
-  function buildSongs(event) {
+  function buildSongs(event, activeId = null) {
     songsEl.innerHTML = '';
     event.videos.forEach(video => {
       const btn = document.createElement('button');
-      btn.className = 'ev-song-btn';
+      btn.className = 'ev-song-btn' + (video.youtubeId === activeId ? ' is-active' : '');
       btn.textContent = video.song;
       btn.dataset.youtubeId = video.youtubeId;
       songsEl.appendChild(btn);
@@ -396,7 +402,7 @@ if (lightbox) {
     setTimeout(() => {
       featuredEl.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
       stageWrap.classList.remove('is-fading');
-    }, 300);
+    }, 350);
     const offset = navbar.offsetHeight + 16;
     const top = stageEl.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top, behavior: 'smooth' });
@@ -415,7 +421,7 @@ if (lightbox) {
       card.dataset.group = event.id;
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', `Ver foto ${i + 1} de ${event.photos.length}`);
+      card.setAttribute('aria-label', `Ver foto ${i + 1} de ${Math.min(5, event.photos.length)}`);
 
       const img = document.createElement('img');
       img.src = src;
@@ -439,7 +445,7 @@ if (lightbox) {
       tab.setAttribute('aria-selected', active ? 'true' : 'false');
     });
 
-    if (event.featuredVideo) stageWrap.classList.add('is-fading');
+    if (!stageEl.classList.contains('ev-stage--hidden')) stageWrap.classList.add('is-fading');
     grid.classList.add('is-fading');
     captionEl.classList.add('ev-caption--fading');
 
@@ -452,11 +458,13 @@ if (lightbox) {
         stageWrap.classList.remove('is-fading');
         captionEl.classList.remove('ev-caption--fading');
       } else {
+        featuredEl.src = '';
         stageEl.classList.add('ev-stage--hidden');
         captionEl.classList.add('ev-caption--hidden');
+        captionEl.classList.remove('ev-caption--fading');
       }
 
-      buildSongs(event);
+      buildSongs(event, event.featuredVideo);
       buildGrid(event);
       grid.classList.remove('is-fading');
     }, 350);
@@ -479,6 +487,6 @@ if (lightbox) {
   grid.addEventListener('keydown', handleGalleryKeydown);
 
   // ── Init ──────────────────────────────────────────────────
-  buildSongs(EVENTS_DATA[0]);
+  buildSongs(EVENTS_DATA[0], EVENTS_DATA[0].featuredVideo);
   buildGrid(EVENTS_DATA[0]);
 })();

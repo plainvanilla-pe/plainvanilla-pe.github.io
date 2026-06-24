@@ -1444,6 +1444,8 @@ section { padding: var(--section-v) 0; }
   scrollbar-width: none;
   -ms-overflow-style: none;
   border-bottom: 1px solid rgba(255,255,255,0.06);
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
 }
 .ev-tabs::-webkit-scrollbar { display: none; }
 
@@ -1616,8 +1618,9 @@ section { padding: var(--section-v) 0; }
 }
 
 /* Stage hidden (Aperol) */
-.ev-stage--hidden   { display: none; }
-.ev-caption--hidden { display: none; }
+.ev-stage--hidden    { display: none; }
+.ev-caption--hidden  { display: none; }
+.ev-caption--fading  { opacity: 0; }
 
 /* Pinterest 2-col photo grid */
 #ev-grid { columns: 2; }
