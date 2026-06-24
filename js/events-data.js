@@ -44,14 +44,25 @@ const EVENTS_DATA = [
     id: 'la-noche',
     label: 'La Noche de Barranco',
     caption: 'La Noche de Barranco · 19 de mayo · Barranco, Lima',
-    featuredVideo: 'dQ9UH9av3Kg',
+    featuredVideo: 'cYXllpHXKWI',
     videos: [
-      { youtubeId: '_6mXFVPkBbE', song: 'En Vivo' },
+      { youtubeId: '_6mXFVPkBbE', song: 'Funky Rap' },
       { youtubeId: 'cYXllpHXKWI', song: 'Darte Amor & Bossabebé' },
       { youtubeId: 'DGf1VXfo1ag', song: 'Gata Siamés' },
       { youtubeId: 'nuBomyCoUS8', song: 'Romina' },
     ],
     photos: GALLERY_LA_NOCHE,
+  },
+  {
+    id: 'mejia',
+    label: 'Laguna Pai',
+    caption: 'Apertura a Laguna Pai · Mejía, Arequipa',
+    featuredVideo: 'Dt7FpINKjpA',
+    videos: [
+      { youtubeId: 'Dt7FpINKjpA', song: 'Verde y Azul' },
+      { youtubeId: 'wMpTbeu92oo', song: 'Cliché' },
+    ],
+    photos: GALLERY_MEJIA,
   },
   {
     id: 'aperol',
@@ -60,15 +71,5 @@ const EVENTS_DATA = [
     featuredVideo: null,
     videos: [],
     photos: GALLERY_APEROL,
-  },
-  {
-    id: 'mejia',
-    label: 'Laguna Pai',
-    caption: 'Apertura a Laguna Pai · Mejía, Arequipa',
-    featuredVideo: 'Dt7FpINKjpA',
-    videos: [
-      { youtubeId: 'wMpTbeu92oo', song: 'Cliché' },
-    ],
-    photos: GALLERY_MEJIA,
   },
 ];

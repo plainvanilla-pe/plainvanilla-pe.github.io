@@ -360,35 +360,6 @@ if (lightbox) {
   const section = document.getElementById('en-vivo');
   if (!section) return;
 
-  const events = [
-    {
-      id: 'la-noche', label: 'La Noche de Barranco',
-      caption: 'La Noche de Barranco · 19 de mayo · Barranco, Lima',
-      featuredVideo: 'cYXllpHXKWI',
-      videos: [
-        { youtubeId: '_6mXFVPkBbE', song: 'Funky Rap' },
-        { youtubeId: 'cYXllpHXKWI', song: 'Darte Amor & Bossabebé' },
-        { youtubeId: 'DGf1VXfo1ag', song: 'Gata Siamés' },
-        { youtubeId: 'nuBomyCoUS8', song: 'Romina' },
-      ],
-      photos: GALLERY_LA_NOCHE,
-    },
-    {
-      id: 'mejia', label: 'Apertura a Laguna Pai',
-      caption: 'Apertura a Laguna Pai · Mejía, Arequipa',
-      featuredVideo: 'Dt7FpINKjpA',
-      videos: [
-        { youtubeId: 'Dt7FpINKjpA', song: 'Verde y Azul' },
-        { youtubeId: 'wMpTbeu92oo', song: 'Cliché' },
-      ],
-      photos: GALLERY_MEJIA,
-    },
-    {
-      id: 'aperol', label: "Aperol O'clock",
-      caption: '', featuredVideo: null, videos: [], photos: GALLERY_APEROL,
-    },
-  ];
-
   const tabs       = section.querySelectorAll('.ev-tab');
   const featuredEl = document.getElementById('ev-featured');
   const captionEl  = document.getElementById('ev-caption');
@@ -398,20 +369,23 @@ if (lightbox) {
   const grid       = document.getElementById('ev-grid');
 
   let switchTimer = null;
-  let isSwitching = false;
 
-  // ── Song title buttons ────────────────────────────────────
+  // ── Song title buttons (delegated) ───────────────────────
+  songsEl.addEventListener('click', e => {
+    const btn = e.target.closest('.ev-song-btn');
+    if (!btn) return;
+    songsEl.querySelector('.ev-song-btn.is-active')?.classList.remove('is-active');
+    btn.classList.add('is-active');
+    loadVideo(btn.dataset.youtubeId);
+  });
+
   function buildSongs(event) {
     songsEl.innerHTML = '';
     event.videos.forEach(video => {
       const btn = document.createElement('button');
       btn.className = 'ev-song-btn';
       btn.textContent = video.song;
-      btn.addEventListener('click', () => {
-        songsEl.querySelectorAll('.ev-song-btn').forEach(b => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
-        loadVideo(video.youtubeId);
-      });
+      btn.dataset.youtubeId = video.youtubeId;
       songsEl.appendChild(btn);
     });
   }
@@ -430,6 +404,7 @@ if (lightbox) {
 
   // ── Photo grid — max 5, Pinterest 2-col ──────────────────
   function buildGrid(event) {
+    Array.from(grid.children).forEach(card => fadeObserver.unobserve(card));
     grid.innerHTML = '';
     GALLERY_MAP[event.id] = event.photos;
 
@@ -457,7 +432,6 @@ if (lightbox) {
   // ── Switch event tab ──────────────────────────────────────
   function switchEvent(event) {
     clearTimeout(switchTimer);
-    isSwitching = true;
 
     tabs.forEach(tab => {
       const active = tab.dataset.event === event.id;
@@ -467,7 +441,7 @@ if (lightbox) {
 
     if (event.featuredVideo) stageWrap.classList.add('is-fading');
     grid.classList.add('is-fading');
-    captionEl.style.opacity = '0';
+    captionEl.classList.add('ev-caption--fading');
 
     switchTimer = setTimeout(() => {
       if (event.featuredVideo) {
@@ -476,7 +450,7 @@ if (lightbox) {
         featuredEl.src = `https://www.youtube.com/embed/${event.featuredVideo}`;
         captionEl.textContent = event.caption;
         stageWrap.classList.remove('is-fading');
-        captionEl.style.opacity = '';
+        captionEl.classList.remove('ev-caption--fading');
       } else {
         stageEl.classList.add('ev-stage--hidden');
         captionEl.classList.add('ev-caption--hidden');
@@ -485,15 +459,13 @@ if (lightbox) {
       buildSongs(event);
       buildGrid(event);
       grid.classList.remove('is-fading');
-      isSwitching = false;
     }, 350);
   }
 
   // ── Tab clicks + keyboard ─────────────────────────────────
   tabs.forEach((tab, i) => {
     tab.addEventListener('click', () => {
-      if (isSwitching) return;
-      const event = events.find(e => e.id === tab.dataset.event);
+      const event = EVENTS_DATA.find(e => e.id === tab.dataset.event);
       if (event) switchEvent(event);
     });
     tab.addEventListener('keydown', e => {
@@ -507,6 +479,6 @@ if (lightbox) {
   grid.addEventListener('keydown', handleGalleryKeydown);
 
   // ── Init ──────────────────────────────────────────────────
-  buildSongs(events[0]);
-  buildGrid(events[0]);
+  buildSongs(EVENTS_DATA[0]);
+  buildGrid(EVENTS_DATA[0]);
 })();
