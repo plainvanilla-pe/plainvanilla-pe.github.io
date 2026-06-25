@@ -68,7 +68,12 @@
 
     <!-- Slide 1: Landing -->
     <div class="carousel-slide is-active">
-      <div class="hero-bg" style="background-image: url('assets/Live/la-noche-1905/LaNoche_02.webp');" aria-hidden="true"></div>
+      <div class="hero-video-wrap">
+        <video class="hero-bg" id="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+          <source src="assets/Live/la-noche-1905/LaNoche_encore_06.mp4" type="video/mp4">
+        </video>
+        <div class="hero-bg-overlay" aria-hidden="true"></div>
+      </div>
       <div class="hero-content">
         <h1>PLAIN<br>VANILLA</h1>
         <a href="#musica" class="btn btn-outline">ESCÚCHANOS</a>
@@ -89,6 +94,7 @@
     <!-- Navegación -->
     <button class="carousel-arrow carousel-arrow--prev" aria-label="Slide anterior">&#8592;</button>
     <button class="carousel-arrow carousel-arrow--next" aria-label="Slide siguiente">&#8594;</button>
+    <button class="hero-mute-btn" id="hero-mute-btn" aria-label="Activar sonido"></button>
     <div class="carousel-dots" role="tablist" aria-label="Slides">
       <button class="carousel-dot is-active" role="tab" aria-selected="true"  aria-label="Slide 1"></button>
       <button class="carousel-dot"           role="tab" aria-selected="false" aria-label="Slide 2"></button>
@@ -223,42 +229,101 @@
        EN VIVO — HUB UNIFICADO
   ══════════════════════════════════════════ -->
   <section id="en-vivo">
+
+    <!-- Header -->
+    <div class="ev-header container">
+      <h2 class="section-title fade-in">SEROTONINA AUDIOVISUAL</h2>
+      <p class="eyebrow fade-in">(con audífonos)</p>
+    </div>
+
+    <!-- Show cards — pobladas por JS -->
+    <div class="ev-show-cards" id="ev-show-cards" role="tablist" aria-label="Seleccionar show"></div>
+
+    <!-- Contenido del show activo -->
     <div class="container">
-      <h2 class="section-title fade-in">En Vivo</h2>
 
-      <!-- Tabs de evento -->
-      <nav class="ev-tabs fade-in" aria-label="Seleccionar evento" role="tablist">
-        <button class="ev-tab is-active" role="tab" data-event="la-noche" aria-selected="true">La Noche de Barranco</button>
-        <button class="ev-tab" role="tab" data-event="mejia" aria-selected="false">Laguna Pai</button>
-        <button class="ev-tab" role="tab" data-event="aperol" aria-selected="false">Aperol O'clock</button>
-      </nav>
+      <!-- Two-col: video+meta LEFT · setlist RIGHT en desktop -->
+      <div id="ev-two-col">
 
-      <!-- Stage — video destacado -->
-      <div class="ev-stage fade-in" id="ev-stage">
-        <div class="ev-stage-video">
-          <iframe
-            id="ev-featured"
-            src="https://www.youtube.com/embed/cYXllpHXKWI"
-            title="Plain Vanilla — En Vivo"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen loading="lazy">
-          </iframe>
+        <!-- Columna izquierda: video + meta -->
+        <div>
+
+          <!-- Video con overlay de play -->
+          <div class="ev-video-wrap" id="ev-video-wrap">
+            <div class="ev-video-overlay" id="ev-video-overlay">
+              <button class="ev-play-circle" id="ev-play-btn" aria-label="Reproducir video destacado">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+              <p class="ev-video-label" id="ev-video-label"></p>
+              <p class="ev-video-hint">Tocar para reproducir</p>
+            </div>
+            <iframe
+              id="ev-featured"
+              src=""
+              title="Plain Vanilla — En Vivo"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+              loading="lazy"
+              style="display:none; position:absolute; inset:0; width:100%; height:100%; border:0;">
+            </iframe>
+            <video
+              id="ev-local-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+            </video>
+            <button class="ev-mute-btn" id="ev-mute-btn" aria-label="Activar sonido" style="display:none;"></button>
+          </div>
+
+          <!-- Meta del show -->
+          <div class="ev-meta fade-in">
+            <div>
+              <p class="ev-meta-name" id="ev-meta-name"></p>
+              <p class="ev-meta-location" id="ev-meta-location"></p>
+            </div>
+            <span class="ev-track-badge" id="ev-track-badge"></span>
+          </div>
+
+        </div><!-- /columna izquierda -->
+
+        <!-- Columna derecha: setlist -->
+        <div>
+          <div class="ev-setlist fade-in" id="ev-setlist" aria-label="Setlist"></div>
         </div>
+
+      </div><!-- /ev-two-col -->
+
+      <!-- Strip horizontal de fotos -->
+      <div class="ev-photos-section fade-in">
+        <div class="ev-photos-header">
+          <span class="ev-section-label">Fotos</span>
+          <span class="ev-photos-hint">← deslizá</span>
+        </div>
+        <div class="ev-photo-strip" id="ev-photo-strip" aria-label="Fotos del show"></div>
       </div>
-      <p class="ev-stage-caption fade-in" id="ev-caption">La Noche de Barranco &nbsp;·&nbsp; 19 de mayo · Barranco, Lima</p>
 
-      <!-- Botones de canción — poblados por JS -->
-      <div class="ev-songs" id="ev-songs"></div>
+    </div><!-- /container -->
 
-      <!-- Grid de fotos (max 5, estilo Pinterest) — poblado por JS -->
-      <div class="ev-grid gallery-grid" id="ev-grid" aria-label="Fotos en vivo"></div>
-
-      <div class="ev-cta fade-in">
-        <a href="galeria.html" class="btn btn-outline">Ver más →</a>
+    <!-- Ticker animado -->
+    <div class="ev-ticker" aria-hidden="true">
+      <div class="ev-ticker-inner">
+        <span>PLAIN VANILLA · EN VIVO · TOCADAS · BARRANCO · LIMA · PLAIN VANILLA · EN VIVO · TOCADAS · BARRANCO · LIMA ·&nbsp;</span>
+        <span>PLAIN VANILLA · EN VIVO · TOCADAS · BARRANCO · LIMA · PLAIN VANILLA · EN VIVO · TOCADAS · BARRANCO · LIMA ·&nbsp;</span>
       </div>
     </div>
+
+    <!-- CTA -->
+    <div class="ev-cta fade-in">
+      <a href="galeria.html" class="btn btn-outline">Ver todas las tocadas →</a>
+    </div>
+
   </section>
 
 
@@ -267,7 +332,7 @@
   ══════════════════════════════════════════ -->
   <section id="musica">
     <div class="container">
-      <h2 class="section-title fade-in">MÚSICA</h2>
+      <h2 class="section-title fade-in">MÚSICA PARA VOLAR</h2>
       <p class="section-subtitle fade-in">
         Funk, bossa nova, reggae, rock, R&amp;B, soul, blues y rap, todo y nada,
         sin responder a una fórmula fija ni a un solo género.

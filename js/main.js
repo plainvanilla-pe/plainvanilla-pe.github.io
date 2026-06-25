@@ -7,10 +7,11 @@
   const hero = document.getElementById('hero');
   if (!hero?.classList.contains('hero-carousel')) return;
 
-  const slides = hero.querySelectorAll('.carousel-slide');
-  const dots   = hero.querySelectorAll('.carousel-dot');
-  let current  = 0;
-  let timer    = null;
+  const slides   = hero.querySelectorAll('.carousel-slide');
+  const dots     = hero.querySelectorAll('.carousel-dot');
+  const muteBtn  = document.getElementById('hero-mute-btn');
+  let current    = 0;
+  let timer      = null;
 
   function goTo(idx) {
     slides[current].classList.remove('is-active');
@@ -22,6 +23,11 @@
     slides[current].classList.add('is-active');
     dots[current].classList.add('is-active');
     dots[current].setAttribute('aria-selected', 'true');
+
+    if (muteBtn) {
+      muteBtn.style.opacity = current === 0 ? '' : '0';
+      muteBtn.style.pointerEvents = current === 0 ? '' : 'none';
+    }
   }
 
   function startAuto() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 6000); }
@@ -151,6 +157,24 @@ if (heroBg && !reduceMotion) {
     }
   }, { passive: true });
 }
+
+// ── HERO VIDEO MUTE ──────────────────────────────────────────
+(function initHeroMute() {
+  const video = document.getElementById('hero-video');
+  const btn   = document.getElementById('hero-mute-btn');
+  if (!video || !btn) return;
+
+  const ICON_MUTED = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>`;
+  const ICON_SOUND = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>`;
+
+  function update() {
+    btn.innerHTML = video.muted ? ICON_MUTED : ICON_SOUND;
+    btn.setAttribute('aria-label', video.muted ? 'Activar sonido' : 'Silenciar');
+  }
+
+  btn.addEventListener('click', () => { video.muted = !video.muted; update(); });
+  update();
+})();
 
 // ── FADE-IN ON SCROLL ─────────────────────────────────────────
 const fadeObserver = PVUtils.initFadeIn();
@@ -361,132 +385,260 @@ if (lightbox) {
   }, { passive: true });
 }
 
-// ── EN VIVO HUB ───────────────────────────────────────────────
+// ── EN VIVO — REDISEÑO ───────────────────────────────────────
+function escapeHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 (function initEnVivo() {
   const section = document.getElementById('en-vivo');
   if (!section) return;
 
-  const tabs       = section.querySelectorAll('.ev-tab');
-  const featuredEl = document.getElementById('ev-featured');
-  const captionEl  = document.getElementById('ev-caption');
-  const stageEl    = document.getElementById('ev-stage');
-  const stageWrap  = section.querySelector('.ev-stage-video');
-  const songsEl    = document.getElementById('ev-songs');
-  const grid       = document.getElementById('ev-grid');
+  const showCardsEl   = document.getElementById('ev-show-cards');
+  const overlayEl     = document.getElementById('ev-video-overlay');
+  const featuredEl    = document.getElementById('ev-featured');
+  const localVideoEl  = document.getElementById('ev-local-video');
+  const muteBtnEl     = document.getElementById('ev-mute-btn');
+  const videoLabelEl  = document.getElementById('ev-video-label');
+  const metaNameEl    = document.getElementById('ev-meta-name');
+  const metaLocEl     = document.getElementById('ev-meta-location');
+  const trackBadgeEl  = document.getElementById('ev-track-badge');
+  const setlistEl     = document.getElementById('ev-setlist');
+  const photoStripEl  = document.getElementById('ev-photo-strip');
 
-  let switchTimer = null;
+  const ICON_MUTED = `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>`;
+  const ICON_SOUND = `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>`;
 
-  // ── Song title buttons (delegated) ───────────────────────
-  songsEl.addEventListener('click', e => {
-    const btn = e.target.closest('.ev-song-btn');
-    if (!btn) return;
-    songsEl.querySelector('.ev-song-btn.is-active')?.classList.remove('is-active');
-    btn.classList.add('is-active');
-    loadVideo(btn.dataset.youtubeId);
-  });
+  function updateMuteIcon() {
+    if (!muteBtnEl || !localVideoEl) return;
+    const muted = localVideoEl.muted;
+    muteBtnEl.innerHTML = muted ? ICON_MUTED : ICON_SOUND;
+    muteBtnEl.setAttribute('aria-label', muted ? 'Activar sonido' : 'Silenciar');
+  }
 
-  function buildSongs(event, activeId = null) {
-    songsEl.innerHTML = '';
-    event.videos.forEach(video => {
-      const btn = document.createElement('button');
-      btn.className = 'ev-song-btn' + (video.youtubeId === activeId ? ' is-active' : '');
-      btn.textContent = video.song;
-      btn.dataset.youtubeId = video.youtubeId;
-      songsEl.appendChild(btn);
+  if (muteBtnEl) {
+    muteBtnEl.addEventListener('click', e => {
+      e.stopPropagation();
+      localVideoEl.muted = !localVideoEl.muted;
+      updateMuteIcon();
     });
   }
 
-  // ── Load video into featured stage ────────────────────────
-  function loadVideo(youtubeId) {
-    stageWrap.classList.add('is-fading');
-    setTimeout(() => {
-      featuredEl.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
-      stageWrap.classList.remove('is-fading');
-    }, 350);
-    const offset = navbar.offsetHeight + 16;
-    const top = stageEl.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top, behavior: 'smooth' });
+  let activeEventId = null;
+
+  // ── Build show selector cards ─────────────────────────────
+  function buildShowCards() {
+    showCardsEl.innerHTML = '';
+    EVENTS_DATA.forEach((event, i) => {
+      const card = document.createElement('div');
+      card.className = 'ev-show-card' + (i === 0 ? ' is-active' : '');
+      card.setAttribute('role', 'tab');
+      card.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      card.setAttribute('aria-label', event.label);
+      card.dataset.eventId = event.id;
+
+      const dateText = event.caption
+        ? event.caption.split('·')[1]?.trim() ?? 'Próximamente'
+        : 'Próximamente';
+
+      card.innerHTML = `
+        <p class="ev-show-card-name">${escapeHtml(event.label)}</p>
+        <p class="ev-show-card-date">${escapeHtml(dateText)}</p>
+      `;
+
+      card.addEventListener('click', () => switchEvent(event));
+      showCardsEl.appendChild(card);
+    });
   }
 
-  // ── Photo grid — max 5, Pinterest 2-col ──────────────────
-  function buildGrid(event) {
-    Array.from(grid.children).forEach(card => fadeObserver.unobserve(card));
-    grid.innerHTML = '';
+  // ── Build setlist ─────────────────────────────────────────
+  function buildSetlist(event) {
+    setlistEl.innerHTML = '';
+    if (!event.videos.length) return;
+
+    const header = document.createElement('div');
+    header.className = 'ev-setlist-header';
+    header.innerHTML = `<span class="ev-section-label">Setlist</span><div style="flex:1;height:1px;background:rgba(255,255,255,.07)"></div><span class="ev-section-label">${event.videos.length} canciones</span>`;
+    setlistEl.appendChild(header);
+
+    event.videos.forEach((video, i) => {
+      const row = document.createElement('div');
+      row.className = 'ev-setlist-row';
+      row.setAttribute('role', 'button');
+      row.setAttribute('tabindex', '0');
+      row.setAttribute('aria-label', `Reproducir: ${video.song}`);
+      row.dataset.youtubeId = video.youtubeId;
+      row.dataset.index = i;
+
+      row.innerHTML = `
+        <span class="ev-setlist-num">${String(i + 1).padStart(2, '0')}</span>
+        <span class="ev-setlist-title">${escapeHtml(video.song)}</span>
+        <div class="ev-setlist-right">
+          ${video.recommended ? '<span class="ev-setlist-tag">On Fayah</span>' : ''}
+          <div class="ev-setlist-dot">
+            <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true">
+              <polygon points="2,1 7,4 2,7"/>
+            </svg>
+          </div>
+        </div>
+      `;
+
+      row.addEventListener('click', () => {
+        const wasActive = row.classList.contains('is-active');
+        setlistEl.querySelectorAll('.ev-setlist-row.is-active')
+          .forEach(r => r.classList.remove('is-active'));
+        if (!wasActive) {
+          row.classList.add('is-active');
+          if (video.youtubeId || video.localSrc) {
+            stopAutoAdvance();
+            loadVideo(video.youtubeId, video.song, video.localSrc);
+          }
+        }
+      });
+
+      row.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
+      });
+
+      setlistEl.appendChild(row);
+    });
+  }
+
+  // ── Build photo strip ─────────────────────────────────────
+  function buildPhotoStrip(event) {
+    photoStripEl.innerHTML = '';
     GALLERY_MAP[event.id] = event.photos;
 
-    event.photos.slice(0, 5).forEach((src, i) => {
-      const card = document.createElement('div');
-      card.className = 'gallery-item ev-card--photo fade-in';
-      card.dataset.index = i;
-      card.dataset.group = event.id;
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', `Ver foto ${i + 1} de ${Math.min(5, event.photos.length)}`);
+    event.photos.slice(0, 6).forEach((src, i) => {
+      const item = document.createElement('div');
+      item.className = 'ev-photo-item';
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('aria-label', `Ver foto ${i + 1}`);
+      item.dataset.index = i;
+      item.dataset.group = event.id;
 
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Plain Vanilla en vivo — foto ${i + 1}`;
-      img.loading = 'lazy';
+      const img    = document.createElement('img');
+      img.src      = src;
+      img.alt      = `Plain Vanilla en vivo — foto ${i + 1}`;
+      img.loading  = 'lazy';
       img.decoding = 'async';
 
-      card.appendChild(img);
-      grid.appendChild(card);
-      fadeObserver.observe(card);
+      item.appendChild(img);
+      photoStripEl.appendChild(item);
     });
   }
 
-  // ── Switch event tab ──────────────────────────────────────
+  // ── Load video ────────────────────────────────────────────
+  function loadVideo(youtubeId, songTitle, localSrc) {
+    overlayEl.classList.add('is-hidden');
+    if (videoLabelEl) videoLabelEl.textContent = songTitle ?? '';
+
+    if (localSrc) {
+      featuredEl.src = '';
+      featuredEl.style.display = 'none';
+      localVideoEl.src = localSrc;
+      localVideoEl.style.display = 'block';
+      localVideoEl.muted = true;
+      localVideoEl.play();
+      if (muteBtnEl) muteBtnEl.style.display = 'flex';
+      updateMuteIcon();
+    } else {
+      localVideoEl.pause();
+      localVideoEl.src = '';
+      localVideoEl.style.display = 'none';
+      if (muteBtnEl) muteBtnEl.style.display = 'none';
+      featuredEl.style.display = 'block';
+      featuredEl.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+    }
+  }
+
+  // ── Reset video to overlay state ──────────────────────────
+  function resetVideo(event) {
+    featuredEl.src = '';
+    featuredEl.style.display = 'none';
+    localVideoEl.pause();
+    localVideoEl.src = '';
+    localVideoEl.style.display = 'none';
+    if (muteBtnEl) muteBtnEl.style.display = 'none';
+    overlayEl.classList.remove('is-hidden');
+    if (videoLabelEl) {
+      const featured = getFeaturedEntry(event);
+      videoLabelEl.textContent = featured ? featured.song : event.label;
+    }
+  }
+
+  function getFeaturedEntry(event) {
+    return event.videos.find(v => v.youtubeId === event.featuredVideo);
+  }
+
+  // ── Switch event ──────────────────────────────────────────
   function switchEvent(event) {
-    clearTimeout(switchTimer);
+    if (event.id === activeEventId) return;
+    activeEventId = event.id;
 
-    tabs.forEach(tab => {
-      const active = tab.dataset.event === event.id;
-      tab.classList.toggle('is-active', active);
-      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    showCardsEl.querySelectorAll('.ev-show-card').forEach(card => {
+      const active = card.dataset.eventId === event.id;
+      card.classList.toggle('is-active', active);
+      card.setAttribute('aria-selected', active ? 'true' : 'false');
     });
 
-    if (!stageEl.classList.contains('ev-stage--hidden')) stageWrap.classList.add('is-fading');
-    grid.classList.add('is-fading');
-    captionEl.classList.add('ev-caption--fading');
+    if (metaNameEl)    metaNameEl.textContent   = event.label;
+    if (metaLocEl)     metaLocEl.textContent     = event.caption ?? '';
+    if (trackBadgeEl)  trackBadgeEl.textContent  = event.videos.length ? `${event.videos.length} tracks` : '';
 
-    switchTimer = setTimeout(() => {
-      if (event.featuredVideo) {
-        stageEl.classList.remove('ev-stage--hidden');
-        captionEl.classList.remove('ev-caption--hidden');
-        featuredEl.src = `https://www.youtube.com/embed/${event.featuredVideo}`;
-        captionEl.textContent = event.caption;
-        stageWrap.classList.remove('is-fading');
-        captionEl.classList.remove('ev-caption--fading');
-      } else {
-        featuredEl.src = '';
-        stageEl.classList.add('ev-stage--hidden');
-        captionEl.classList.add('ev-caption--hidden');
-        captionEl.classList.remove('ev-caption--fading');
-      }
+    if (event.featuredVideo) {
+      resetVideo(event);
+    } else {
+      featuredEl.src = '';
+      featuredEl.style.display = 'none';
+      overlayEl.classList.add('is-hidden');
+    }
 
-      buildSongs(event, event.featuredVideo);
-      buildGrid(event);
-      grid.classList.remove('is-fading');
-    }, 350);
+    buildSetlist(event);
+    buildPhotoStrip(event);
   }
 
-  // ── Tab clicks + keyboard ─────────────────────────────────
-  tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => {
-      const event = EVENTS_DATA.find(e => e.id === tab.dataset.event);
-      if (event) switchEvent(event);
+  // ── Play overlay click ────────────────────────────────────
+  if (overlayEl) {
+    overlayEl.addEventListener('click', () => {
+      const event = EVENTS_DATA.find(e => e.id === activeEventId);
+      if (event?.featuredVideo) {
+        const featured = getFeaturedEntry(event);
+        loadVideo(event.featuredVideo, featured?.song ?? event.label, featured?.localSrc);
+      }
     });
-    tab.addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight') { const next = tabs[(i + 1) % tabs.length]; next.focus(); next.click(); }
-      if (e.key === 'ArrowLeft')  { const prev = tabs[(i - 1 + tabs.length) % tabs.length]; prev.focus(); prev.click(); }
-    });
-  });
+  }
 
-  // ── Lightbox para fotos ───────────────────────────────────
-  grid.addEventListener('click',   handleGalleryClick);
-  grid.addEventListener('keydown', handleGalleryKeydown);
+  // ── Lightbox para el photo strip ─────────────────────────
+  if (photoStripEl) {
+    photoStripEl.addEventListener('click',   handleGalleryClick);
+    photoStripEl.addEventListener('keydown', handleGalleryKeydown);
+  }
+
+  // ── Auto-advance show cards ───────────────────────────────
+  let autoAdvanceTimer = null;
+
+  function scheduleAutoAdvance() {
+    clearInterval(autoAdvanceTimer);
+    autoAdvanceTimer = setInterval(() => {
+      const currentIndex = EVENTS_DATA.findIndex(e => e.id === activeEventId);
+      const nextIndex = (currentIndex + 1) % EVENTS_DATA.length;
+      switchEvent(EVENTS_DATA[nextIndex]);
+    }, 13000);
+  }
+
+  function stopAutoAdvance() { clearInterval(autoAdvanceTimer); }
+
+  if (showCardsEl) {
+    showCardsEl.addEventListener('click', stopAutoAdvance, { capture: true });
+  }
+  if (overlayEl) {
+    overlayEl.addEventListener('click', stopAutoAdvance, { capture: true });
+  }
 
   // ── Init ──────────────────────────────────────────────────
-  buildSongs(EVENTS_DATA[0], EVENTS_DATA[0].featuredVideo);
-  buildGrid(EVENTS_DATA[0]);
+  buildShowCards();
+  switchEvent(EVENTS_DATA[0]);
+  scheduleAutoAdvance();
 })();
