@@ -445,7 +445,16 @@ video.hero-bg::after { content: none; }
 .hero-mute-btn:hover { opacity: 1; }
 
 @media (max-width: 768px) {
-  .hero-mute-btn { bottom: 3.5rem; right: 1rem; }
+  .hero-mute-btn {
+    bottom: 3.5rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+  }
+  .hero-mute-btn svg {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .hero-content {
@@ -1900,11 +1909,69 @@ video.hero-bg::after { content: none; }
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
-  .ev-header { padding-top: 2.5rem; }
   .ev-show-cards { padding: 1.75rem 1.25rem 0; }
   #en-vivo .container { padding: 0 1.25rem; }
+  #en-vivo .ev-header { padding-top: var(--section-v); }
   .ev-photo-strip { margin: 0 -1.25rem; padding: 0 1.25rem 4px; }
   .ev-cta { padding: 0 1.25rem; }
+
+  /* Paginación del setlist — swipe horizontal */
+  .ev-setlist-pages {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .ev-setlist-pages::-webkit-scrollbar { display: none; }
+  .ev-setlist-page {
+    min-width: 100%;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .ev-setlist-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.875rem 0 0.25rem;
+  }
+  .ev-setlist-page-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    transition: background 0.25s;
+  }
+  .ev-setlist-page-dot.is-active { background: var(--accent); }
+  .ev-setlist-page-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.18);
+    background: none;
+    color: rgba(255,255,255,.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .ev-setlist-page-arrow:not(:disabled):hover {
+    color: white;
+    border-color: rgba(255,255,255,.4);
+  }
+  .ev-setlist-page-arrow:disabled {
+    opacity: 0.2;
+    cursor: default;
+  }
+}
+
+/* Paginación oculta en desktop */
+@media (min-width: 769px) {
+  .ev-setlist-pagination { display: none; }
 }
 
 @media (max-width: 480px) {

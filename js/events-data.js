@@ -55,7 +55,7 @@ const EVENTS_DATA = [
       { youtubeId: 'eBg_FPyAIXc', song: 'Eden y Charcos' },
       { youtubeId: 'nuBomyCoUS8', song: 'Romina', recommended: true },
       { youtubeId: 'cYXllpHXKWI', song: 'Final de Cortesía & Bossabebé', recommended: true },
-      { youtubeId: '8a-qX6yPZaM', song: 'Que Se Repita (Encore)', localSrc: 'assets/Live/la-noche-1905/LaNoche_encore_06.mp4' },
+      { youtubeId: '8a-qX6yPZaM', song: 'Que Se Repita (Encore)'},
     ],
     photos: GALLERY_LA_NOCHE,
   },

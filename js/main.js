@@ -30,7 +30,7 @@
     }
   }
 
-  function startAuto() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 6000); }
+  function startAuto() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 12000); }
   function stopAuto()  { clearInterval(timer); }
 
   hero.querySelector('.carousel-arrow--next')?.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
@@ -452,6 +452,47 @@ function escapeHtml(str) {
   }
 
   // ── Build setlist ─────────────────────────────────────────
+  function makeSetlistRow(video, globalIndex) {
+    const row = document.createElement('div');
+    row.className = 'ev-setlist-row';
+    row.setAttribute('role', 'button');
+    row.setAttribute('tabindex', '0');
+    row.setAttribute('aria-label', `Reproducir: ${video.song}`);
+    row.dataset.youtubeId = video.youtubeId ?? '';
+    row.dataset.index = globalIndex;
+
+    row.innerHTML = `
+      <span class="ev-setlist-num">${String(globalIndex + 1).padStart(2, '0')}</span>
+      <span class="ev-setlist-title">${escapeHtml(video.song)}</span>
+      <div class="ev-setlist-right">
+        ${video.recommended ? '<span class="ev-setlist-tag">On Fayah</span>' : ''}
+        <div class="ev-setlist-dot">
+          <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true">
+            <polygon points="2,1 7,4 2,7"/>
+          </svg>
+        </div>
+      </div>
+    `;
+
+    row.addEventListener('click', () => {
+      const wasActive = row.classList.contains('is-active');
+      setlistEl.querySelectorAll('.ev-setlist-row.is-active')
+        .forEach(r => r.classList.remove('is-active'));
+      if (!wasActive) {
+        row.classList.add('is-active');
+        if (video.youtubeId || video.localSrc) {
+          loadVideo(video.youtubeId, video.song, video.localSrc);
+        }
+      }
+    });
+
+    row.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
+    });
+
+    return row;
+  }
+
   function buildSetlist(event) {
     setlistEl.innerHTML = '';
     if (!event.videos.length) return;
@@ -461,47 +502,70 @@ function escapeHtml(str) {
     header.innerHTML = `<span class="ev-section-label">Setlist</span><div style="flex:1;height:1px;background:rgba(255,255,255,.07)"></div><span class="ev-section-label">${event.videos.length} canciones</span>`;
     setlistEl.appendChild(header);
 
-    event.videos.forEach((video, i) => {
-      const row = document.createElement('div');
-      row.className = 'ev-setlist-row';
-      row.setAttribute('role', 'button');
-      row.setAttribute('tabindex', '0');
-      row.setAttribute('aria-label', `Reproducir: ${video.song}`);
-      row.dataset.youtubeId = video.youtubeId;
-      row.dataset.index = i;
+    const PAGE_SIZE = 5;
 
-      row.innerHTML = `
-        <span class="ev-setlist-num">${String(i + 1).padStart(2, '0')}</span>
-        <span class="ev-setlist-title">${escapeHtml(video.song)}</span>
-        <div class="ev-setlist-right">
-          ${video.recommended ? '<span class="ev-setlist-tag">On Fayah</span>' : ''}
-          <div class="ev-setlist-dot">
-            <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true">
-              <polygon points="2,1 7,4 2,7"/>
-            </svg>
-          </div>
-        </div>
-      `;
+    if (event.videos.length > PAGE_SIZE) {
+      const totalPages = Math.ceil(event.videos.length / PAGE_SIZE);
+      const pagesEl = document.createElement('div');
+      pagesEl.className = 'ev-setlist-pages';
 
-      row.addEventListener('click', () => {
-        const wasActive = row.classList.contains('is-active');
-        setlistEl.querySelectorAll('.ev-setlist-row.is-active')
-          .forEach(r => r.classList.remove('is-active'));
-        if (!wasActive) {
-          row.classList.add('is-active');
-          if (video.youtubeId || video.localSrc) {
-            stopAutoAdvance();
-            loadVideo(video.youtubeId, video.song, video.localSrc);
-          }
-        }
+      for (let p = 0; p < totalPages; p++) {
+        const pageEl = document.createElement('div');
+        pageEl.className = 'ev-setlist-page';
+        event.videos.slice(p * PAGE_SIZE, (p + 1) * PAGE_SIZE).forEach((video, i) => {
+          pageEl.appendChild(makeSetlistRow(video, p * PAGE_SIZE + i));
+        });
+        pagesEl.appendChild(pageEl);
+      }
+      setlistEl.appendChild(pagesEl);
+
+      const dotsEl = document.createElement('div');
+      dotsEl.className = 'ev-setlist-pagination';
+
+      const btnPrev = document.createElement('button');
+      btnPrev.className = 'ev-setlist-page-arrow';
+      btnPrev.setAttribute('aria-label', 'Página anterior');
+      btnPrev.disabled = true;
+      btnPrev.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>`;
+
+      const btnNext = document.createElement('button');
+      btnNext.className = 'ev-setlist-page-arrow';
+      btnNext.setAttribute('aria-label', 'Página siguiente');
+      btnNext.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>`;
+
+      dotsEl.appendChild(btnPrev);
+      for (let p = 0; p < totalPages; p++) {
+        const dot = document.createElement('span');
+        dot.className = 'ev-setlist-page-dot' + (p === 0 ? ' is-active' : '');
+        dotsEl.appendChild(dot);
+      }
+      dotsEl.appendChild(btnNext);
+      setlistEl.appendChild(dotsEl);
+
+      const currentPage = () => Math.round(pagesEl.scrollLeft / pagesEl.offsetWidth);
+
+      btnPrev.addEventListener('click', () => {
+        pagesEl.scrollTo({ left: Math.max(0, currentPage() - 1) * pagesEl.offsetWidth, behavior: 'smooth' });
+      });
+      btnNext.addEventListener('click', () => {
+        pagesEl.scrollTo({ left: Math.min(totalPages - 1, currentPage() + 1) * pagesEl.offsetWidth, behavior: 'smooth' });
       });
 
-      row.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
-      });
-
-      setlistEl.appendChild(row);
-    });
+      let rafId = null;
+      pagesEl.addEventListener('scroll', () => {
+        if (rafId) return;
+        rafId = requestAnimationFrame(() => {
+          rafId = null;
+          const page = currentPage();
+          dotsEl.querySelectorAll('.ev-setlist-page-dot')
+            .forEach((dot, i) => dot.classList.toggle('is-active', i === page));
+          btnPrev.disabled = page === 0;
+          btnNext.disabled = page === totalPages - 1;
+        });
+      }, { passive: true });
+    } else {
+      event.videos.forEach((video, i) => setlistEl.appendChild(makeSetlistRow(video, i)));
+    }
   }
 
   // ── Build photo strip ─────────────────────────────────────
@@ -530,7 +594,7 @@ function escapeHtml(str) {
   }
 
   // ── Load video ────────────────────────────────────────────
-  function loadVideo(youtubeId, songTitle, localSrc) {
+  function loadVideo(youtubeId, songTitle, localSrc, autoplay = true) {
     overlayEl.classList.add('is-hidden');
     if (videoLabelEl) videoLabelEl.textContent = songTitle ?? '';
 
@@ -549,7 +613,7 @@ function escapeHtml(str) {
       localVideoEl.style.display = 'none';
       if (muteBtnEl) muteBtnEl.style.display = 'none';
       featuredEl.style.display = 'block';
-      featuredEl.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+      featuredEl.src = `https://www.youtube.com/embed/${youtubeId}?${autoplay ? 'autoplay=1&' : ''}rel=0&modestbranding=1`;
     }
   }
 
@@ -588,7 +652,8 @@ function escapeHtml(str) {
     if (trackBadgeEl)  trackBadgeEl.textContent  = event.videos.length ? `${event.videos.length} tracks` : '';
 
     if (event.featuredVideo) {
-      resetVideo(event);
+      const featured = getFeaturedEntry(event);
+      loadVideo(event.featuredVideo, featured?.song ?? event.label, featured?.localSrc, false);
     } else {
       featuredEl.src = '';
       featuredEl.style.display = 'none';
@@ -616,29 +681,7 @@ function escapeHtml(str) {
     photoStripEl.addEventListener('keydown', handleGalleryKeydown);
   }
 
-  // ── Auto-advance show cards ───────────────────────────────
-  let autoAdvanceTimer = null;
-
-  function scheduleAutoAdvance() {
-    clearInterval(autoAdvanceTimer);
-    autoAdvanceTimer = setInterval(() => {
-      const currentIndex = EVENTS_DATA.findIndex(e => e.id === activeEventId);
-      const nextIndex = (currentIndex + 1) % EVENTS_DATA.length;
-      switchEvent(EVENTS_DATA[nextIndex]);
-    }, 13000);
-  }
-
-  function stopAutoAdvance() { clearInterval(autoAdvanceTimer); }
-
-  if (showCardsEl) {
-    showCardsEl.addEventListener('click', stopAutoAdvance, { capture: true });
-  }
-  if (overlayEl) {
-    overlayEl.addEventListener('click', stopAutoAdvance, { capture: true });
-  }
-
   // ── Init ──────────────────────────────────────────────────
   buildShowCards();
   switchEvent(EVENTS_DATA[0]);
-  scheduleAutoAdvance();
 })();
